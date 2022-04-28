@@ -1,0 +1,70 @@
+# Project: tpfinalTMPL
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = main.o lib/orm/orm.o lib/utils/utils.o src/localidad/localidad.o config/config.o src/cliente/cliente.o src/consulta/consulta.o src/diagnostico/diagnostico.o src/especie/especie.o src/mascota/mascota.o src/mascota_medicamento/mascota_medicamento.o src/mascota_tratamiento/mascota_tratamiento.o src/medicamento/medicamento.o src/profesional/profesional.o src/tratamiento/tratamiento.o
+LINKOBJ  = main.o lib/orm/orm.o lib/utils/utils.o src/localidad/localidad.o config/config.o src/cliente/cliente.o src/consulta/consulta.o src/diagnostico/diagnostico.o src/especie/especie.o src/mascota/mascota.o src/mascota_medicamento/mascota_medicamento.o src/mascota_tratamiento/mascota_tratamiento.o src/medicamento/medicamento.o src/profesional/profesional.o src/tratamiento/tratamiento.o
+LIBS     = -L"D:/Dev-Cpp/MinGW64/lib32" -L"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc "../../../../../Program Files (x86)/PostgreSQL/9.2/lib/libpq.lib" -m32 -g3
+INCS     = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/PostgreSQL/9.2/include"
+CXXINCS  = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Program Files (x86)/PostgreSQL/9.2/include"
+BIN      = tpfinalTMPL.exe
+CXXFLAGS = $(CXXINCS) -m32 -g3 -g -lq
+CFLAGS   = $(INCS) -m32 -g3 -g -lq
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+lib/orm/orm.o: lib/orm/orm.c
+	$(CC) -c lib/orm/orm.c -o lib/orm/orm.o $(CFLAGS)
+
+lib/utils/utils.o: lib/utils/utils.c
+	$(CC) -c lib/utils/utils.c -o lib/utils/utils.o $(CFLAGS)
+
+src/localidad/localidad.o: src/localidad/localidad.c
+	$(CC) -c src/localidad/localidad.c -o src/localidad/localidad.o $(CFLAGS)
+
+config/config.o: config/config.c
+	$(CC) -c config/config.c -o config/config.o $(CFLAGS)
+
+src/cliente/cliente.o: src/cliente/cliente.c
+	$(CC) -c src/cliente/cliente.c -o src/cliente/cliente.o $(CFLAGS)
+
+src/consulta/consulta.o: src/consulta/consulta.c
+	$(CC) -c src/consulta/consulta.c -o src/consulta/consulta.o $(CFLAGS)
+
+src/diagnostico/diagnostico.o: src/diagnostico/diagnostico.c
+	$(CC) -c src/diagnostico/diagnostico.c -o src/diagnostico/diagnostico.o $(CFLAGS)
+
+src/especie/especie.o: src/especie/especie.c
+	$(CC) -c src/especie/especie.c -o src/especie/especie.o $(CFLAGS)
+
+src/mascota/mascota.o: src/mascota/mascota.c
+	$(CC) -c src/mascota/mascota.c -o src/mascota/mascota.o $(CFLAGS)
+
+src/mascota_medicamento/mascota_medicamento.o: src/mascota_medicamento/mascota_medicamento.c
+	$(CC) -c src/mascota_medicamento/mascota_medicamento.c -o src/mascota_medicamento/mascota_medicamento.o $(CFLAGS)
+
+src/mascota_tratamiento/mascota_tratamiento.o: src/mascota_tratamiento/mascota_tratamiento.c
+	$(CC) -c src/mascota_tratamiento/mascota_tratamiento.c -o src/mascota_tratamiento/mascota_tratamiento.o $(CFLAGS)
+
+src/medicamento/medicamento.o: src/medicamento/medicamento.c
+	$(CC) -c src/medicamento/medicamento.c -o src/medicamento/medicamento.o $(CFLAGS)
+
+src/profesional/profesional.o: src/profesional/profesional.c
+	$(CC) -c src/profesional/profesional.c -o src/profesional/profesional.o $(CFLAGS)
+
+src/tratamiento/tratamiento.o: src/tratamiento/tratamiento.c
+	$(CC) -c src/tratamiento/tratamiento.c -o src/tratamiento/tratamiento.o $(CFLAGS)
