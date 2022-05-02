@@ -8,11 +8,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "includes/includes.h"
-#define MAXNOMBRE 80
-#define MAXAPELLIDO 90
-#define MAXDOMICILIO 120
-#define MAXOBSERVACION 250
-#define MAXTELEFONO 20
 
 //-----------------LISTAR---------------------------------------
 listarClientes(){
@@ -38,25 +33,6 @@ listarClientes(){
   
 }
 listarMascotas(){
-	  int size,i;
-  void *list,*itm;
-  obj_Mascota *mascota;
-  mascota = Mascota_new();
-  
-  size = mascota->findAll(mascota,&list,NULL);
-  
-  for(i=0;i<size;++i)
-  {
-    itm = ((Object **)list)[i];    
-    ((Object *)itm)->toString(itm);
-    printf("\n");
-    fflush(stdin);
-
-  }
-  
-  destroyObjList(list,size);
-  destroyObj(mascota);
-	
   
 }
 listarProfesionales(){
