@@ -151,5 +151,5 @@ listarMascotas(){
 }
    
 altaMascota(){
-
+ printf("DDDCD");
 }
