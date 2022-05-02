@@ -146,3 +146,6 @@ obj_Consulta *Consulta_new()
   return (obj_Consulta *)init_obj(sizeof(obj_Consulta), init_Consulta);
 }
 //----------------------------------------------------
+listarConsultas(){
+  
+}

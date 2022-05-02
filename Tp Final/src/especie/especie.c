@@ -66,3 +66,6 @@ obj_Especie *Especie_new()
   return (obj_Especie *)init_obj(sizeof(obj_Especie), init_Especie);
 }
 //----------------------------------------------------
+altaEspecie(){
+  
+}

@@ -102,3 +102,11 @@ obj_Medicamento *Medicamento_new()
   return (obj_Medicamento *)init_obj(sizeof(obj_Medicamento), init_Medicamento);
 }
 //----------------------------------------------------
+//alta
+altaMedicamento(){
+
+}
+
+listarTurnos(){
+
+}

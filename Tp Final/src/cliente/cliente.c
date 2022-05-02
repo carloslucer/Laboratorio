@@ -127,3 +127,77 @@ obj_Cliente *Cliente_new()
   return (obj_Cliente *)init_obj(sizeof(obj_Cliente), init_Cliente);
 }
 //----------------------------------------------------
+//-----------------LISTAR---------------------------------------
+listarClientes(){
+  
+  int size,i;
+  void *list,*itm;
+  obj_Cliente *cliente;
+  cliente = Cliente_new();
+  
+  size = cliente->findAll(cliente,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(cliente);
+  
+}
+
+//-------------------ALTAS---------------------------------------------
+altaCliente(){
+  int dni, codPostal;
+    char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO];
+  obj_Cliente *cliente;
+    cliente = Cliente_new();
+    
+  printf("ALTA CLIENTE \n");
+  printf("ingrese dni: \n");
+  scanf("%d", &dni);
+  fflush(stdin);
+  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
+    cliente->setDni(cliente,dni);
+     
+    printf("ingrese nombre: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin);
+    cliente->setNombres(cliente,nombre);
+    
+    printf("ingrese apellido: \n");
+    fgets(apellido,MAXAPELLIDO-1,stdin);
+    cliente->setApellido(cliente,apellido);
+    
+    printf("ingrese donicilio \n");
+    fgets(domicilio,MAXDOMICILIO-1,stdin);
+    cliente->setDomicilio(cliente,domicilio);
+
+    printf("ingrese telefono: \n");
+    fgets(telefono,MAXTELEFONO-1,stdin);
+    cliente->setTelefono(cliente,telefono);
+      
+    codPostal = validarCodigoPostal();
+    cliente->setCodPostal(cliente,codPostal);   
+    
+      printf("ingrese observaciones: \n");
+    fgets(observacion,MAXOBSERVACION-1,stdin);
+    cliente->setObservaciones(cliente,observacion);
+    
+    if(cliente->saveObj(cliente)){ 
+    printf("cliente guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar cliente \n");
+    }
+   }
+   else{
+    printf("cliente ya existe \n");
+   }
+  destroyObj(cliente);
+}
+

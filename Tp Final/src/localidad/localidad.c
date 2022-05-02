@@ -66,3 +66,25 @@ obj_Localidad *Localidad_new()
   return (obj_Localidad *)init_obj(sizeof(obj_Localidad), init_Localidad);
 }
 //----------------------------------------------------
+//-----------------VALIDAR--------------------------------------
+
+int validarCodigoPostal(){
+    int codPostal;
+    obj_Localidad *localidad;
+    localidad = Localidad_new();
+    int codigoCorrecto =0;
+    printf("ingrese codigo postal: \n");
+    while (!codigoCorrecto){
+    scanf("%d",&codPostal);
+    if(localidad->findbykey(localidad,codPostal) != NOT_FOUND){
+         codigoCorrecto=1;
+    }else printf("ingrese codigo postal invalido, ingrese uno correcto: \n");
+    fflush(stdin);
+}
+destroyObj(localidad);
+return codPostal;
+}
+//-------------ALTA---------------
+altaLocalidad(){
+
+}

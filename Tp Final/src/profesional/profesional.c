@@ -135,3 +135,8 @@ obj_Profesional *Profesional_new()
   return (obj_Profesional *)init_obj(sizeof(obj_Profesional), init_Profesional);
 }
 //----------------------------------------------------
+altaProfesional(){
+}
+
+listarProfesionales(){
+}

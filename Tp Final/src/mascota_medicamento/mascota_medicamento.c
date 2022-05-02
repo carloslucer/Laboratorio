@@ -101,3 +101,6 @@ obj_MascotaMedicamento *MascotaMedicamento_new()
   return (obj_MascotaMedicamento *)init_obj(sizeof(obj_MascotaMedicamento), init_MascotaMedicamento);
 }
 //----------------------------------------------------
+listarMedicamentosMascota(){
+}
+

@@ -126,3 +126,30 @@ obj_Mascota *Mascota_new()
   return (obj_Mascota *)init_obj(sizeof(obj_Mascota), init_Mascota);
 }
 //----------------------------------------------------
+//listar Mascotas
+listarMascotas(){
+	  int size,i;
+  void *list,*itm;
+  obj_Mascota *mascota;
+  mascota = Mascota_new();
+  
+  size = mascota->findAll(mascota,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(mascota);
+	
+  
+}
+   
+altaMascota(){
+
+}

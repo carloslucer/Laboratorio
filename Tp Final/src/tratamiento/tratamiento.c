@@ -84,3 +84,5 @@ obj_Tratamiento *Tratamiento_new()
   return (obj_Tratamiento *)init_obj(sizeof(obj_Tratamiento), init_Tratamiento);
 }
 //----------------------------------------------------
+listarTratamientosMascota(){
+}

@@ -7,6 +7,13 @@
 	#define POS_TELEFONO_CLI 4
 	#define POS_COD_POSTAL_CLI 5
 	#define POS_OBS_CLI 6
+	#define MAXNOMBRE 80
+	#define MAXAPELLIDO 90
+	#define MAXDOMICILIO 120
+	#define MAXOBSERVACION 250
+	#define MAXTELEFONO 20
+	
+	
 	//----------------------------------------------------
 	typedef struct {	    
 		IOBJECT	 // crea definicion de propiedades comunes a Object .. Macro en orm.h     
