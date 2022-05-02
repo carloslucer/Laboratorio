@@ -3,6 +3,8 @@
 #include "../localidad/localidad.h"
 #include "../cliente/cliente.h"
 #include "mascota.h"
+#include<stdbool.h>
+
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -151,5 +153,35 @@ listarMascotas(){
 }
    
 altaMascota(){
- printf("DDDCD");
+obj_Mascota *mascota;
+  mascota = Mascota_new();
+	
+	printf("ALTA MASCOTA \n");
+	 printf("ingrese nombre de la mascota: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin);
+    mascota->setNombres(mascota,nombre);
+
+ 	 printf("ingrese fecha de nacimiento: \n");
+ 	 fgets(fecha,MAXFECHA-1,stdin);
+ 	 mascota->setFechaNac(mascota)
+ 	 
+ 	  printf("ingrese dni del cliente: \n");
+    scanf("%d", &dni);
+  fflush(stdin);
+  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
+    cliente->setDni(cliente,dni);
+     
+     printf("ingrese el codigo de la especie  \n");
+     scanf("%d", &CodEspecie);
+  fflush(stdin);
+  if(mascota->findbykey(mascota,codEspecie) == NOT_FOUND){
+    mascota->setCodigo(mascota,codEspecie);
+    
+    printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
+    	scanf("%d", &vacunado)
+    fflush(stdin);
+		}
+    printf("ingrese observacion de la moscota \n");
+		fgets(observacion,MAXOBSERVACION-1,stdin);
+    mascota->setObservaciones(mascota,observacion);
 }
