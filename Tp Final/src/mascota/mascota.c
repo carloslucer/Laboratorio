@@ -166,10 +166,14 @@ obj_Mascota *mascota;
  	 mascota->setFechaNac(mascota)
  	 
  	  printf("ingrese dni del cliente: \n");
-    scanf("%d", &dni);
+  while(!valido){
+  scanf("%d", &dni);
   fflush(stdin);
   if(cliente->findbykey(cliente,dni) == NOT_FOUND){
-    cliente->setDni(cliente,dni);
+      printf("dni no encontrado, ingrese un dni cargado en sistema \n");
+  } else {
+  	   return dni;
+  }
      
      printf("ingrese el codigo de la especie  \n");
      scanf("%d", &CodEspecie);
