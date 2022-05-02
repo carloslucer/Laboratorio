@@ -200,4 +200,24 @@ altaCliente(){
    }
   destroyObj(cliente);
 }
+//-------------validarcliente----------------------
+//
+int validarDniCliente(){
+   int valido=0;
+   int dni;	  
+   obj_Cliente *cliente;
+   cliente = Cliente_new();
+  printf("ingrese dni: \n");
+  while(!valido){
+  scanf("%d", &dni);
+  fflush(stdin);
+  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
+      printf("dni no encontrado, ingrese un dni cargado en sistema \n");
+  } else {
+  	   return dni;
+  }
+  
+     
+}
+}
 
