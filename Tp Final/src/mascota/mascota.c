@@ -4,8 +4,6 @@
 #include "../cliente/cliente.h"
 #include "mascota.h"
 #include<stdbool.h>
-#define MAXNOMBRE 50
-#define MAXFECHA 50
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -156,6 +154,7 @@ listarMascotas(){
 altaMascota(){
 	char nombre[MAXNOMBRE];
 	char fechaNac[MAXFECHA];
+	int codEspecie;
 	int dni;
 obj_Mascota *mascota;
   mascota = Mascota_new();
@@ -184,7 +183,7 @@ obj_Mascota *mascota;
     mascota->setCodigo(mascota,codEspecie);
 
     printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
-    	scanf("%d", &vacunado)
+    	scanf("%d", &vacunado);
     fflush(stdin);
 		}
     printf("ingrese observacion de la moscota \n");
