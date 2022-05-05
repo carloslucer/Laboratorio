@@ -4,7 +4,8 @@
 #include "../cliente/cliente.h"
 #include "mascota.h"
 #include<stdbool.h>
-
+#define MAXNOMBRE 50
+#define MAXFECHA 50
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -153,34 +154,35 @@ listarMascotas(){
 }
    
 altaMascota(){
+	char nombre[MAXNOMBRE];
+	char fechaNac[MAXFECHA];
+	int dni;
 obj_Mascota *mascota;
   mascota = Mascota_new();
+  obj_Cliente *cliente;
+  cliente = Cliente_new();
 	
 	printf("ALTA MASCOTA \n");
 	 printf("ingrese nombre de la mascota: \n");
     fgets(nombre,MAXNOMBRE-1,stdin);
-    mascota->setNombres(mascota,nombre);
+    mascota->setNombre(mascota,nombre);
 
  	 printf("ingrese fecha de nacimiento: \n");
- 	 fgets(fecha,MAXFECHA-1,stdin);
- 	 mascota->setFechaNac(mascota)
+ 	 fgets(fechaNac,MAXFECHA-1,stdin);
+ 	 mascota->setFechaNac(mascota,fechaNac);
  	 
  	  printf("ingrese dni del cliente: \n");
-  while(!valido){
-  scanf("%d", &dni);
+ 	  scanf("%d", &dni);
   fflush(stdin);
   if(cliente->findbykey(cliente,dni) == NOT_FOUND){
-      printf("dni no encontrado, ingrese un dni cargado en sistema \n");
-  } else {
-  	   return dni;
-  }
-     
+    cliente->setDni(cliente,dni);
+   
      printf("ingrese el codigo de la especie  \n");
      scanf("%d", &CodEspecie);
   fflush(stdin);
   if(mascota->findbykey(mascota,codEspecie) == NOT_FOUND){
     mascota->setCodigo(mascota,codEspecie);
-    
+
     printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
     	scanf("%d", &vacunado)
     fflush(stdin);
@@ -188,4 +190,5 @@ obj_Mascota *mascota;
     printf("ingrese observacion de la moscota \n");
 		fgets(observacion,MAXOBSERVACION-1,stdin);
     mascota->setObservaciones(mascota,observacion);
+}
 }

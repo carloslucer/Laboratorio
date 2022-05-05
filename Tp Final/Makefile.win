@@ -6,12 +6,12 @@ CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
 OBJ      = main.o lib/orm/orm.o lib/utils/utils.o src/localidad/localidad.o config/config.o src/cliente/cliente.o src/consulta/consulta.o src/diagnostico/diagnostico.o src/especie/especie.o src/mascota/mascota.o src/mascota_medicamento/mascota_medicamento.o src/mascota_tratamiento/mascota_tratamiento.o src/medicamento/medicamento.o src/profesional/profesional.o src/tratamiento/tratamiento.o
 LINKOBJ  = main.o lib/orm/orm.o lib/utils/utils.o src/localidad/localidad.o config/config.o src/cliente/cliente.o src/consulta/consulta.o src/diagnostico/diagnostico.o src/especie/especie.o src/mascota/mascota.o src/mascota_medicamento/mascota_medicamento.o src/mascota_tratamiento/mascota_tratamiento.o src/medicamento/medicamento.o src/profesional/profesional.o src/tratamiento/tratamiento.o
-LIBS     = -L"D:/Dev-Cpp/MinGW64/lib32" -L"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc "../../../../../../Program Files (x86)/PostgreSQL/9.2/lib/libpq.lib" -m32 -g3
-INCS     = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/PostgreSQL/9.2/include"
-CXXINCS  = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Program Files (x86)/PostgreSQL/9.2/include"
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc "../../../../../../Program Files (x86)/PostgreSQL/9.2/lib/libpq.lib" -m32 -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/PostgreSQL/9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Program Files (x86)/PostgreSQL/9.2/include"
 BIN      = tpfinalTMPL.exe
-CXXFLAGS = $(CXXINCS) -m32 -g3 -g -lq
-CFLAGS   = $(INCS) -m32 -g3 -g -lq
+CXXFLAGS = $(CXXINCS) -m32 -g3
+CFLAGS   = $(INCS) -m32 -g3
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
