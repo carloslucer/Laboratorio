@@ -147,5 +147,24 @@ obj_Consulta *Consulta_new()
 }
 //----------------------------------------------------
 listarConsultas(){
+	int size,i;
+  void *list,*itm;
+  obj_Consulta *consulta;
+  consulta = Consulta_new();
+  
+  size = consulta->findAll(consulta,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(consulta);
   
 }
+

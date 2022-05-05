@@ -4,6 +4,11 @@
 #include "../cliente/cliente.h"
 #include "mascota.h"
 #include<stdbool.h>
+<<<<<<< Updated upstream
+=======
+#define MAXNOMBRE 50
+#define MAXFECHA 50
+>>>>>>> Stashed changes
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -154,7 +159,10 @@ listarMascotas(){
 altaMascota(){
 	char nombre[MAXNOMBRE];
 	char fechaNac[MAXFECHA];
+<<<<<<< Updated upstream
 	int codEspecie;
+=======
+>>>>>>> Stashed changes
 	int dni;
 obj_Mascota *mascota;
   mascota = Mascota_new();

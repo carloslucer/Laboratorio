@@ -136,7 +136,58 @@ obj_Profesional *Profesional_new()
 }
 //----------------------------------------------------
 altaProfesional(){
+	int dni, codPostal, matricula;
+    char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO];
+  obj_Profesional *profesional;
+    profesional = Profesional_new();
+    
+  printf("ALTA PROFESIONAL \n");
+  printf("ingrese dni: \n");
+  scanf("%d", &dni);
+  fflush(stdin);
+  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
+    profesional->setDni(profesional,dni);
+    
+   if(profesional->findbykey(profesional,matricula) == NOT_FOUND){
+   	profesional->setMatricula(profesional,matricula)
+   }
+     
+    printf("ingrese nombre del profesional: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin);
+    profesional->setNombres(profesional,nombre);
+    
+    printf("ingrese apellido: \n");
+    fgets(apellido,MAXAPELLIDO-1,stdin);
+    profesional->setApellido(profesional,apellido);
+    
+    printf("ingrese donicilio \n");
+    fgets(domicilio,MAXDOMICILIO-1,stdin);
+    profesional->setDomicilio(profesional,domicilio);
+
+    printf("ingrese telefono: \n");
+    fgets(telefono,MAXTELEFONO-1,stdin);
+    profesional->setTelefono(profesional,telefono);
+      
+    codPostal = validarCodigoPostal();
+    profesional->setCodPostal(profesional,codPostal);   
+    
+      printf("ingrese observaciones: \n");
+    fgets(observacion,MAXOBSERVACION-1,stdin);
+    profesional->setObservaciones(profesional,observacion);
+    
+    if(cliente->saveObj(profesional)){ 
+    printf("profesional guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar profesional \n");
+    }
+   }
+   else{
+    printf("profesional ya existe \n");
+   }
+  destroyObj(profesional);
 }
+
 
 listarProfesionales(){
 }

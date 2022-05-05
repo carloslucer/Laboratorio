@@ -13,16 +13,26 @@ LeftChar=1
 Open=0
 Top=0
 [Editor_0]
+<<<<<<< Updated upstream
 CursorCol=37
 CursorRow=21
 TopLine=16
+=======
+CursorCol=1
+CursorRow=76
+TopLine=71
+>>>>>>> Stashed changes
 LeftChar=1
 Open=1
 Top=0
 [Editor_1]
 CursorCol=1
 CursorRow=11
+<<<<<<< Updated upstream
 TopLine=45
+=======
+TopLine=1
+>>>>>>> Stashed changes
 LeftChar=1
 Open=0
 Top=0
@@ -81,9 +91,9 @@ LeftChar=1
 [Editor_11]
 Open=1
 Top=0
-CursorCol=29
-CursorRow=162
-TopLine=1
+CursorCol=7
+CursorRow=183
+TopLine=154
 LeftChar=1
 [Editor_12]
 Open=1
@@ -147,9 +157,15 @@ CursorRow=20
 TopLine=1
 LeftChar=1
 [Editor_20]
+<<<<<<< Updated upstream
 CursorCol=19
 CursorRow=181
 TopLine=162
+=======
+CursorCol=1
+CursorRow=8
+TopLine=1
+>>>>>>> Stashed changes
 LeftChar=1
 [Editor_22]
 CursorCol=1

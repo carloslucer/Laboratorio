@@ -14,11 +14,11 @@
 
 void menuAltas(){
   int opcion = 0;
-  while(opcion!=7){
+  while(opcion!=6){
   
   
-  printf("SELECCIONE LA INGORMACION QUE DESEA DAR DE ALTA:\n");
-  printf("[ 1 - cliente       ]\n");
+  printf("SELECCIONE LA INFORMACION QUE DESEA DAR DE ALTA:\n");
+  printf("[ 1 - Cliente       ]\n");
   printf("[ 2 - Mascota       ]\n");
   printf("[ 3 - Especie       ]\n");
   printf("[ 4 - Profesional   ]\n");
@@ -43,8 +43,37 @@ void menuAltas(){
 
 }
 void menuActulizaciones(){
-  
+	
+	 int opcion = 0;
+    while(opcion!=7)
+    {
+    
+      printf("SELECCIONE LA INFORMACION QUE DESEA ACTUALIZAR:\n");
+      printf("[ 1 - Clientes                     ]\n");
+      printf("[ 2 - Mascotas                     ]\n");
+      printf("[ 3 - Profesionales                ]\n");
+      printf("[ 4 - Turnos                       ]\n");
+      printf("[ 5 - Tratamientos de Mascota      ]\n");
+      printf("[ 6 - Medicamentos de Mascota      ]\n");
+      printf("[ 7 - Salir                        ]\n");
+       
+       
+        scanf("%d",&opcion);
+      
+        switch (opcion)
+        { 
+          case 1: actualizarClientes();
+          case 2: actualizarMascotas();
+          case 3: actualizarProfesionales();
+          case 4: actualizarTurnos();
+          case 5: actualizarTratamientosMascota();
+          case 6: actualizarMedicamentosMascota();
+          break;  
+             }   
+       }    
 }
+  
+
 
 void menulistados(){
   
@@ -52,8 +81,8 @@ void menulistados(){
     while(opcion!=7)
     {
     
-      printf("SELECCIONE LA INGORMACION QUE DESEA LISTAR:\n");
-      printf("[ 1 - clientes                     ]\n");
+      printf("SELECCIONE LA INFORMACION QUE DESEA LISTAR:\n");
+      printf("[ 1 - Clientes                     ]\n");
       printf("[ 2 - Mascotas                     ]\n");
       printf("[ 3 - Profesionales                ]\n");
       printf("[ 4 - Turnos                       ]\n");
@@ -77,6 +106,35 @@ void menulistados(){
        }    
 }
 void menuEstadisticas(){
+
+	int opcion = 0;
+    while(opcion!=7)
+    {
+    
+      printf("SELECCIONE LA INFORMACION QUE DESEA CONOCER LA ESTADISTICA:\n");
+      printf("[ 1 - Clientes                     ]\n");
+      printf("[ 2 - Mascotas                     ]\n");
+      printf("[ 3 - Profesionales                ]\n");
+      printf("[ 4 - Turnos                       ]\n");
+      printf("[ 5 - Tratamientos de Mascota      ]\n");
+      printf("[ 6 - Medicamentos de Mascota      ]\n");
+      printf("[ 7 - Salir                        ]\n");
+       
+       
+        scanf("%d",&opcion);
+      
+        switch (opcion)
+        { 
+          case 1: estadisticaClientes();
+          case 2: estadisticaMascotas();
+          case 3: estadisticaProfesionales();
+          case 4: estadisticaTurnos();
+          case 5: estadisticaTratamientosMascota();
+          case 6: estadisticaMedicamentosMascota();
+          break;  
+             }   
+       }   
+	
   
 }
 

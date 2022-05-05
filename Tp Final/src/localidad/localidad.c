@@ -1,5 +1,6 @@
 #include "../../includes/includelib.h"
 #include "localidad.h"
+#define MAXNOMBRELOCALIDAD 80
 
 THIS(obj_Localidad)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -86,5 +87,26 @@ return codPostal;
 }
 //-------------ALTA---------------
 altaLocalidad(){
+	int idcodigoPostal;
+	char nombre[MAXNOMBRELOCALIDAD];
+	obj_Localidad *localidad;
+    localidad = Localidad_new();
+
+	printf("ALTA LOCALIDAD \n");
+	validadCodigoPostal(idcodigoPostal);
+	system("PAUSE");
+	
+  printf("ingrese nombre de la localidad: \n");
+  fgets(nombre,MAXNOMBRELOCALIDAD-1,stdin);
+  localidad->setNombre(localidad, MAXNOMBRELOCALIDAD);
+  
+  if(!localidad->saveObj(localidad))
+{
+	printf("Ocurrio un error al agregar la Localidad:\n%s\n",getsLastError());
+}
+destroyObj(localidad);
 
 }
+
+  
+
