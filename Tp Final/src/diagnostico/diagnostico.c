@@ -115,3 +115,5 @@ listaDiagnostico(){
   destroyObjList(list,size);
   destroyObj(diagnostico);
 }
+
+

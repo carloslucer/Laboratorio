@@ -148,7 +148,7 @@ obj_Consulta *Consulta_new()
 
 //Alta 
 altaConsulta(){
-	char nombre[MAXNOMBRE], char fecha[MAXFECHA], char hora[MAXHORA];
+	char nombre[MAXNOMBRE], char fecha[MAXFECHA], char hora[MAXHORA], observacion[MAXDESCRIPCION];
 	int idConsulta, dni;
 	 obj_Consulta *consulta;
   consulta = Consulta_new();
@@ -174,6 +174,18 @@ altaConsulta(){
   if(profesional->findbykey(profesional,dni) == NOT_FOUND){
     profesional->setDni(profesional,dni);
 
+  	 listarMascota();
+  	 validarMascota();
+     scanf("%d", &CodMascota);
+  fflush(stdin);
+  if(mascota->findbykey(mascota,codEspecie) == NOT_FOUND){
+    mascota->setCodigo(mascota,codEspecie);
+    
+	printf("ingrese observacion de la consulta: \n");
+		fgets(observacion,MAXOBSERVACION-1,stdin);
+    consulta->setObservaciones(consulta,observacion);
+	}
+    
 //-------------------listar---------------------------------
 listarConsultas(){
 	int size,i;
@@ -195,5 +207,23 @@ listarConsultas(){
   destroyObjList(list,size);
   destroyObj(consulta);
   
+}
+
+int validarvalidarMascota(){
+   int valido=0;
+   int codigo;	  
+   obj_Mascota *mascota;
+   mascota = Mascota_new();
+  printf("ingrese codigo: \n");
+  while(!valido){
+  scanf("%d", &codigo);
+  fflush(stdin);
+  if(mascota->findbykey(mascota,codigo) == NOT_FOUND){
+      printf("codigo no encontrado, ingrese un codigo cargado en sistema \n");
+  } else {
+  	   return codigo;
+  	}
+    
+	}
 }
 
