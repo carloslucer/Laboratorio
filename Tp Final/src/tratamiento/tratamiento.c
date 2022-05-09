@@ -83,6 +83,26 @@ obj_Tratamiento *Tratamiento_new()
 {
   return (obj_Tratamiento *)init_obj(sizeof(obj_Tratamiento), init_Tratamiento);
 }
-//----------------------------------------------------
+//--------------Listar--------------------------------------
 listarTratamientosMascota(){
+	int size,i;
+  void *list,*itm;
+  obj_especie *especie;
+  especie = Especie_new();
+  
+  size = especie->findAll(especie,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(especie);
+  
 }
+

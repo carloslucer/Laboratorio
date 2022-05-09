@@ -134,7 +134,7 @@ obj_Profesional *Profesional_new()
 {
   return (obj_Profesional *)init_obj(sizeof(obj_Profesional), init_Profesional);
 }
-//----------------------------------------------------
+//------------------Alta----------------------------------
 altaProfesional(){
 	int dni, codPostal, matricula;
     char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO];
@@ -188,6 +188,26 @@ altaProfesional(){
   destroyObj(profesional);
 }
 
-
+//Listar
 listarProfesionales(){
+	int size,i;
+  void *list,*itm;
+  obj_profesional *profesional;
+  profesional = profesional_new();
+  
+  size = profesional->findAll(profesional,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(profesional);
+  
 }
+

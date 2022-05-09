@@ -102,5 +102,24 @@ obj_MascotaMedicamento *MascotaMedicamento_new()
 }
 //----------------------------------------------------
 listarMedicamentosMascota(){
+	int size,i;
+  void *list,*itm;
+  obj_Medicamento *medicamento;
+  medicamento = Medicamento_new();
+  
+  size = medicamento->findAll(medicamento,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(medicamento);
 }
+
 

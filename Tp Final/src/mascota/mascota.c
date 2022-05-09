@@ -155,7 +155,7 @@ listarMascotas(){
 	
   
 }
-   
+   //Alta mascota
 altaMascota(){
 	char nombre[MAXNOMBRE];
 	char fechaNac[MAXFECHA];
@@ -197,5 +197,16 @@ obj_Mascota *mascota;
     printf("ingrese observacion de la moscota \n");
 		fgets(observacion,MAXOBSERVACION-1,stdin);
     mascota->setObservaciones(mascota,observacion);
-}
+	}
+	
+	 if(mascota->saveObj(mascota)){ 
+    printf("mascota guardada correctamente \n");
+      }
+    else{
+     printf("error al guardar la mascota \n");
+    }
+   }
+   else{
+    printf("mascota ya existe \n");
+   }
 }

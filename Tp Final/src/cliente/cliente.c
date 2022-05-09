@@ -215,9 +215,8 @@ int validarDniCliente(){
       printf("dni no encontrado, ingrese un dni cargado en sistema \n");
   } else {
   	   return dni;
-  }
-  
-     
-}
+  	}
+    
+	}
 }
 
