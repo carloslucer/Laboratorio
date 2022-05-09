@@ -65,4 +65,53 @@ obj_Diagnostico *Diagnostico_new()
 {
   return (obj_Diagnostico *)init_obj(sizeof(obj_Diagnostico), init_Diagnostico);
 }
-//----------------------------------------------------
+//--------------Alta --------------------------------------
+
+altaDiagnostico(){
+	char nombre[MAXNOMBRE];
+	int idDiagnostico;
+	
+	 printf("ingrese el codigo del diagnostico:  \n");
+     scanf("%d", &idDiagnostico);
+  fflush(stdin);
+  if(diagnostico->findbykey(diagnostico,idDiagnostico) == NOT_FOUND){
+    diagnostico->setId (diagnsotico,idDiagnostico);
+
+
+ printf("ALTA DIAGNOSTICO \n");
+  printf("Ingrese nombre del diagnostico: \n");
+   fgets(nombre,MAXNOMBRE-1,stdin);
+    diagnostico->setNombre(diagnostico,nombre);
+    
+     if(diagnostico->saveObj(diagnostico)){ 
+    printf("diagnostico guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar el diagnostico \n");
+    }
+   else{
+    printf("diagnostico ya existe \n");
+   }
+  }
+}
+
+listaDiagnostico(){
+  int size,i;
+  void *list,*itm;
+  obj_Diagnostico *diagnostico;
+  diagnostico = Diagnostico_new();
+  
+  size = diagnostico->findAll(diagnostico,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    ((Object *)itm)->toString(itm);
+    printf("\n");
+    fflush(stdin);
+
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(diagnostico);
+}

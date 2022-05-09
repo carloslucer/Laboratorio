@@ -145,7 +145,36 @@ obj_Consulta *Consulta_new()
 {
   return (obj_Consulta *)init_obj(sizeof(obj_Consulta), init_Consulta);
 }
-//----------------------------------------------------
+
+//Alta 
+altaConsulta(){
+	char nombre[MAXNOMBRE], char fecha[MAXFECHA], char hora[MAXHORA];
+	int idConsulta, dni;
+	 obj_Consulta *consulta;
+  consulta = Consulta_new();
+  
+  printf("ingrese el codigo de la consulta:  \n");
+     scanf("%d", &idConsulta);
+  fflush(stdin);
+  if(consulta->findbykey(consulta,idConsulta) == NOT_FOUND){
+    consulta->setId (consulta,idConsulta);
+}
+
+	 printf("ALTA CONSULTA \n");
+ 	 printf("ingrese fecha de la consulta: \n");
+ 	 fgets(fecha,MAXFECHA-1,stdin);
+ 	 consulta->setFecha(consulta,fecha);
+
+	printf("ingrese una hora: \n");
+	validarHora(hora);
+
+	printf("ingrese dni del profesional: \n");
+ 	  scanf("%d", &dni);
+  fflush(stdin);
+  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
+    profesional->setDni(profesional,dni);
+
+//-------------------listar---------------------------------
 listarConsultas(){
 	int size,i;
   void *list,*itm;
