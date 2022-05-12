@@ -140,7 +140,12 @@ obj_Mascota *getMascotaConsultaObj_C_Impl(void *self)
 //----------------------------------------------------
 obj_Diagnostico *getDiagnosticoConsultaObj_C_Impl(void *self)
 {
-	/// implementar
+	obj_Diagnostico *obj = this(self);	
+	obj->localidad = Localidad_new();
+	if(obj->localidad->findbykey(obj->localidad,obj->getCodPostal(obj))!=NOT_FOUND)
+	  {
+	  	return obj->localidad;
+	  }
 	return NULL;
 }
 
