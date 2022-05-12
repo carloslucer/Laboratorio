@@ -153,38 +153,53 @@ obj_Mascota *Mascota_new()
 {
   return (obj_Mascota *)init_obj(sizeof(obj_Mascota), init_Mascota);
 }
-//----------------------------------------------------
-//listar Mascotas
+//-----------------LISTAR---------------------------------------
+//listar mascotas
 listarMascotas(){
-	  int size,i;
-  void *list,*itm;
-  obj_Mascota *mascota;
-  mascota = Mascota_new();
-  
-  size = mascota->findAll(mascota,&list,NULL);
-  
-  for(i=0;i<size;++i)
-  {
-    itm = ((Object **)list)[i];    
-    ((Object *)itm)->toString(itm);
-    printf("\n");
-    fflush(stdin);
-
-  }
-  
-  destroyObjList(list,size);
-  destroyObj(mascota);
+	 printf("\n\t\t\t\tMASCOTAS\n");
 	
+	FILE *salida = stdin;
+	
+	obj_Mascota *masc, *aux;
+	void *list,*itm;
+	int i,size=0;
+	
+	masc = Mascota_new();
+	size = masc->findAll(masc,&list,NULL);
+	
+	if(archivo != NULL) {
+		printf("Exportando a archivo...\n");
+        salida = fopen(archivo, "w+");
+    }
+	
+	if (descendente)
+		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoDescM);
+	else
+		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoAscM);
+		
+	// IMPRIME
+	for(i=0;i<size;++i){
+		itm = ((obj_Mascota **)list)[i];
+		aux = (obj_Mascota*)itm; 
+			
+		if(archivo != NULL)
+			fprintf(salida, "CODIGO:%d  Nombre:%s especie:%s \n",
+				aux->getCodigo(aux),
+				aux->getNombre(aux),
+				aux->getCodEspecie(aux)
+			);
+		else
+			((Object *)itm)->toString(itm);
+	}
   
 }
    //Alta mascota
 altaMascota(){
 	char nombre[MAXNOMBRE];
 	char fechaNac[MAXFECHA];
-<<<<<<< Updated upstream
+
 	int codEspecie;
-=======
->>>>>>> Stashed changes
+
 	int dni;
 obj_Mascota *mascota;
   mascota = Mascota_new();

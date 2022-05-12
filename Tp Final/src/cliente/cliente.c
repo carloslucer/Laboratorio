@@ -199,7 +199,7 @@ void listarClientes(char* archivo, bool descendente){
 	}
 	printf("\n");
 	destroyObjList(list,size); 
-	destroyObj(clie;
+	destroyObj(cliente);
 }
 
 //-------------------ActualizarCliente---------------------------------
