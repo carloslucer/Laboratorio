@@ -6,7 +6,24 @@
 #include "../mascota/mascota.h"
 #include "../diagnostico/diagnostico.h"
 #include "consulta.h"
-#define MAXHORA 8
+#include <string.h>
+
+ typedef struct 
+	{
+		int anio;
+		int mes;
+		int dia;
+	
+	}t_fecha;
+
+typedef struct
+	{
+	    int hora;
+		int min;
+		int seg;
+	}t_hora;
+	
+	
 THIS(obj_Consulta)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
 static void toString_ConsultaImpl(void *self)
@@ -200,58 +217,185 @@ listarConsultas()
 
 }
 
-altaConsulta()
+
+t_fecha convertirFecha(char* fecha){
+   
+	char fechaAux[MAXFECHA];
+	strcpy(fechaAux,fecha);
+	t_fecha ffecha;
+    char *anioc;
+	char *mesc;
+	char*dia;
+    anioc=strtok(fechaAux,"-");
+    mesc= strtok(NULL,"-");
+    dia= strtok(NULL,"-");
+    
+   
+	ffecha.anio = atoi(anioc);
+	ffecha.mes  = atoi(mesc);
+	ffecha.dia  = atoi(dia);
+	return ffecha;
+}
+
+int esFechaMayor(char *fecha1 ,char *fecha2){  //devuelve 1 si la fecha2 es mayor o igual a la fecha 1
+	t_fecha f1 = convertirFecha(fecha1);
+	t_fecha f2 = convertirFecha(fecha2);
+	printf("es mayor anio  %d\n",f1.anio);
+	printf("es mayor anio  %d\n",f2.anio);
+	printf("es mayor anio q1 %d\n",f1.mes);
+	printf("es mayor anio q1 %d\n",f2.mes);
+	printf("es mayor anio q1 %d\nd",f1.dia);
+	printf("es mayor anio q1 %d\n",f2.dia);
+	
+   if (f1.anio <= f2.anio && f1.mes < f2.mes){
+   	return 1;
+   }
+   if (f1.anio <= f2.anio && f1.mes == f1.mes){   
+        return (f1.dia <= f2.mes);
+	   }
+   
+    return 0;
+   
+   
+}
+
+validarFecha(char* fecha)
 {
-/*	char nombre[MAXNOMBRE], fecha[MAXFECHA],  hora[MAXHORA];
-	int idConsulta, dni;
+	
+	int esfechaValida =0;
+	printf("ingrese fecha de la consulta: formato  yyyy-mm-dd \n");
+	do
+	{   
+	    
+		fgets(fecha,MAXFECHA-1,stdin);
+		fflush(stdin);
+		if ((strlen(fecha)-1) == 10) {
+		      	char auxFecha[MAXFECHA];
+				strcpy(auxFecha,fecha);
+				char *anio;   
+			    char *mes;      
+			    char *dia;
+			    
+			    anio=strtok(auxFecha,"-");
+			    mes=strtok(NULL,"-");
+			    dia=strtok(NULL,"-");
+			    
+			    //validamos que sea una fecha 
+		    	if(fecha[4] =='-' && fecha[7] =='-' && atoi(anio) >= 2022 && atoi(mes) <= 12 && atoi(mes) !=0 && atoi(dia)<=30  && atoi(dia) !=0)	
+				{   char fechaActual[MAXFECHA];
+	
+				    strcpy(fechaActual,getFecha()); //fecha actual
+	
+			    	if(esFechaMayor(fechaActual,fecha)) //validamos que la fecha actual sea mayor o igual a la actual
+					{
+			    	   esfechaValida=1;
+					}else printf("ingrese un fecha valida sdf");
+			   
+			   	}else printf("ingrese un fecha valida3:\n");
+			   	
+		}else printf("ingrese un fecha valida \n");
+    }
+    while(!esfechaValida);   
+    
+}
+
+
+validarHora(char* hora){
+   
+	
+}
+
+
+
+int consultaExiste(char *fecha,char *hora){
+    int consultaExiste=0;
+    int size,i;
+	void *list,*itm;
 	obj_Consulta *consulta;
 	consulta = Consulta_new();
 
-	printf("ingrese el codigo de la consulta:  \n");
-	scanf("%d", &idConsulta);
-	fflush(stdin);
-	if(consulta->findbykey(consulta,idConsulta) == NOT_FOUND) {
-		consulta->setId (consulta,idConsulta);
-	}
+	size = consulta->findAll(consulta,&list,NULL);
+
+	for(i=0; i<size; ++i)
+    {
+		consulta = ((obj_Consulta**)list)[i];
+		char* fechaDb = consulta->getFecha(consulta);
+		char* horaDb =  consulta->getHora(consulta);
+		if ( !strcmp(fechaDb,fecha) && !strcmp(fechaDb, hora))
+		{
+			consultaExiste=1;
+		}
+	
+    }
+	    
+	destroyObjList(list,size);
+	destroyObj(consulta);
+	return consultaExiste;
+
+}
+
+altaConsulta()
+{
+	char  fecha[MAXFECHA],  hora[MAXFECHA];
+	int idConsulta, dni,codMascota;
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
 
 	printf("ALTA CONSULTA \n");
-
-	printf("ingrese fecha de la consulta: \n");
-	fgets(fecha,MAXFECHA-1,stdin);
-	verificarFechaConsulta(fecha);
-	consulta->setFecha(consulta,fecha);
-
-	printf("ingrese una hora: \n");
-	validarHora(hora);
-	consulta->setHora(hora);
+	int turnoDisponible=0;
+	do{
+	
+		
+		char fecha[MAXFECHA];
+		char hora[MAXFECHA];
+	    validarFecha(fecha);
+	    validarHora(hora);
+		if (consultaExiste(fecha,hora)){
+			printf("ya existe una consulta para esa fecha y hora desea ingresar nuevamente los datos si / no");
+	        char resp[3];
+		    fgets(resp,sizeof(resp)-1,stdin);
+		    if(resp == "no")
+			{
+				exit;
+			}
+        }else{
+            turnoDisponible=1;
+		}
+			
+	}
+    while(!turnoDisponible);
+    
+   	consulta->setFecha(consulta,fecha);
+	consulta->setHora(consulta,hora);
+    
+    obj_Profesional *profesional;
+	profesional = Profesional_new();;
 
 	printf("ingrese dni del profesional que atendera la consulta: \n");
 	scanf("%d", &dni);
 	fflush(stdin);
 
-	if(profesional->findbykey(profesional,dni) == NOT_FOUND) {
-		profesional->setDni(profesional,dni);
-*/
-//-------------------listar---------------------------------
-	/*	listarConsultas() 
+	if(profesional->findbykey(profesional,dni) == NOT_FOUND)
+	 {
+	    printf("profesional no exite desea ingresarlo? si / no");
+	    char resp[3];
+	    fgets(resp,sizeof(resp)-1,stdin);
+	    if(resp == "si")
 		{
-			int size,i;
-			void *list,*itm;
-			obj_Consulta *consulta;
-			consulta = Consulta_new();
-
-			size = consulta->findAll(consulta,&list,NULL);
-
-			for(i=0; i<size; ++i) {
-				itm = ((Object **)list)[i];
-				((Object *)itm)->toString(itm);
-				printf("\n");
-				fflush(stdin);
-
-			}
-
-			destroyObjList(list,size);
-			destroyObj(consulta);
-*/
+	     altaProfesional();
 		}
+		else{
+			   exit;
+		     }
+      }
+	 profesional->setDni(profesional,dni);
+    
+    printf("ingrese el codigo de la mascota");
+	scanf("%d", &codMascota);
+	fflush(stdin);
+	  	
+}
+	  	
+	  	
+	
 
