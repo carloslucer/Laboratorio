@@ -1,7 +1,12 @@
 #include "../../includes/includelib.h"
 #include "../localidad/localidad.h"
 #include "profesional.h"
-
+#define MAXNOMBRE 80
+#define MAXAPELLIDO 90
+#define MAXDOMICILIO 120
+#define MAXOBSERVACION 250
+#define MAXTELEFONO 20
+#define MAXMATRICULA 10
 THIS(obj_Profesional)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
 static void toString_ProfesionalImpl(void *self)
@@ -136,7 +141,63 @@ obj_Profesional *Profesional_new()
 }
 //----------------------------------------------------
 altaProfesional(){
+int dni, codPostal;
+    char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO], matricula[MAXMATRICULA];
+  obj_Profesional *profesional;
+    profesional = Profesional_new();
+    
+  printf("ALTA PROFESIONAL \n");
+  printf("ingrese dni: \n");
+  scanf("%d", &dni);
+  fflush(stdin);
+  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
+    profesional->setDni(profesional,dni);
+   
+   printf("ingrese matricula: \n");
+   fgets(nombre,MAXNOMBRE-1,stdin); 
+   	profesional->setMatricula(profesional,matricula);
+   
+    printf("ingrese nombre del profesional:  \n");
+    fgets(nombre,MAXNOMBRE-1,stdin);
+    profesional->setNombres(profesional,nombre);
+    
+    printf("ingrese apellido: \n");
+    fgets(apellido,MAXAPELLIDO-1,stdin);
+    profesional->setApellido(profesional,apellido);
+    
+    printf("ingrese donicilio \n");
+    fgets(domicilio,MAXDOMICILIO-1,stdin);
+    profesional->setDomicilio(profesional,domicilio);
+
+    printf("ingrese telefono: \n");
+    fgets(telefono,MAXTELEFONO-1,stdin);
+    profesional->setTelefono(profesional,telefono);
+      
+    codPostal = validarCodigoPostal();
+    profesional->setCodPostal(profesional,codPostal);   
+    
+      printf("ingrese observaciones: \n");
+    fgets(observacion,MAXOBSERVACION-1,stdin);
+    profesional->setObservaciones(profesional,observacion);
+    fflush(stdin);
+    if(profesional->saveObj(profesional)){ 
+    printf("profesional guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar profesional \n");
+    }
+   }
+   else{
+    printf("profesional ya existe \n");
+   }
+  destroyObj(profesional);
+  
 }
+
+
+
 
 listarProfesionales(){
 }
+
+

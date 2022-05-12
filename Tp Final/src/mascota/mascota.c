@@ -4,6 +4,8 @@
 #include "../cliente/cliente.h"
 #include "mascota.h"
 #include<stdbool.h>
+#define MAX_NOMBRE 50
+#define MAX_FECHA 50
 
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
@@ -151,41 +153,42 @@ listarMascotas(){
 	
   
 }
-   
-altaMascota(){
-obj_Mascota *mascota;
-  mascota = Mascota_new();
-	
-	printf("ALTA MASCOTA \n");
-	 printf("ingrese nombre de la mascota: \n");
-    fgets(nombre,MAXNOMBRE-1,stdin);
-    mascota->setNombres(mascota,nombre);
+ 
+/*
+validarFecha(*char fecha){
 
- 	 printf("ingrese fecha de nacimiento: \n");
- 	 fgets(fecha,MAXFECHA-1,stdin);
- 	 mascota->setFechaNac(mascota)
- 	 
- 	  printf("ingrese dni del cliente: \n");
-  while(!valido){
-  scanf("%d", &dni);
-  fflush(stdin);
-  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
-      printf("dni no encontrado, ingrese un dni cargado en sistema \n");
-  } else {
-  	   return dni;
-  }
-     
-     printf("ingrese el codigo de la especie  \n");
-     scanf("%d", &CodEspecie);
-  fflush(stdin);
-  if(mascota->findbykey(mascota,codEspecie) == NOT_FOUND){
-    mascota->setCodigo(mascota,codEspecie);
+}*/
+altaMascota(){
+	char nombre[MAXNOMBRE];
+//	*char fechaNac[MAX_FECHA];
+	char observacion[MAXOBSERVACION];
+	int codEspecie,vacunado;
+	int dni;
+    obj_Mascota *mascota;
+    mascota = Mascota_new();
+    obj_Cliente *cliente;
+    cliente = Cliente_new();
+	fflush(stdin);
+	printf("ALTA MASCOTA \n");
+	printf("ingrese nombre de la mascota: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin);
+    mascota->setNombre(mascota,nombre);
     
-    printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
-    	scanf("%d", &vacunado)
+    //fechaNac = validarFecha(fecha);
+ //	mascota->setFechaNac(mascota,fechaNac);
+ 	 
+    printf("ingrese dni del cliente: \n");
+ 	scanf("%d", &dni);
     fflush(stdin);
-		}
-    printf("ingrese observacion de la moscota \n");
+    dni = validarDniCliente();
+    printf("ingrese el codigo de la especie  \n");
+    scanf("%d", &codEspecie);
+    fflush(stdin);
+    printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
+    scanf("%d", &vacunado);
+     fflush(stdin);
+     printf("ingrese observacion de la moscota \n");
 		fgets(observacion,MAXOBSERVACION-1,stdin);
-    mascota->setObservaciones(mascota,observacion);
+     mascota->setObservaciones(mascota,observacion);
 }
+

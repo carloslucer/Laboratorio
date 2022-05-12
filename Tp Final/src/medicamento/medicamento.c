@@ -2,6 +2,7 @@
 #include "../localidad/localidad.h"
 #include "../especie/especie.h"
 #include "medicamento.h"
+#define MAXDESCRIPCION 20
 
 THIS(obj_Medicamento)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -104,9 +105,49 @@ obj_Medicamento *Medicamento_new()
 //----------------------------------------------------
 //alta
 altaMedicamento(){
-
+	int idMedicamento, codEspecie, cantidad;
+	char descripcion[MAXDESCRIPCION];
+	double importe;	
+	obj_Medicamento *medicamento;
+  medicamento = Medicamento_new();
+  
+  printf("ALTA MEDICAMENTO \n");
+  printf("ingrese codigo del medicamento : \n");
+  scanf("%d", &idMedicamento);
+  fflush(stdin);
+   if(medicamento->findbykey(medicamento,idMedicamento) == NOT_FOUND){
+    medicamento->setId(medicamento, idMedicamento);
+	}
+	 printf("Ingrese descripcion : \n");
+   fgets(descripcion,MAXDESCRIPCION-1,stdin);
+   medicamento->setDescripcion(medicamento,descripcion);
+    
+	printf("ingrese el codigo de la especie  \n");
+    scanf("%d", &codEspecie);
+  fflush(stdin);
+  if(medicamento->findbykey(medicamento,codEspecie) == NOT_FOUND){
+    medicamento->setCodEspecie (medicamento,codEspecie);
+	}
+    printf("Ingrese el importe : \n");
+    	scanf("%lf", &importe);
+    fflush(stdin);
+    return 0;
+    
+    printf("Ingrese cantidad : \n");
+    	scanf("%d", &cantidad);
+    return 0;
+    
+     if(medicamento->saveObj(medicamento)){ 
+    printf("medicamento guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar el medicamento \n");
+    }
+   
+  
+  destroyObj(medicamento);
 }
-
+    
 listarTurnos(){
 
 }
