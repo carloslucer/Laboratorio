@@ -4,11 +4,33 @@
 #include "../cliente/cliente.h"
 #include "mascota.h"
 #include<stdbool.h>
-<<<<<<< Updated upstream
-=======
-#define MAXNOMBRE 50
-#define MAXFECHA 50
->>>>>>> Stashed changes
+#define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
+#define MAX_CARACTERES 50
+#define fgets(cadena) fgets(cadena,MAX_CARACTERES,stdin)
+
+char cadena[MAX_CARACTERES];
+int codigo;
+int bandera;
+
+bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
+bool registrar; //permitira controlar si el usuario quiere seguir registrando
+
+int compara_CodigoDescM(const void *l1, const void * l2){
+    obj_Mascota *masc1 =  *((obj_Mascota **)l1);
+    obj_Mascota *masc2 =  *((obj_Mascota **)l2);
+    
+    return (masc1->getCodigo(masc1) - masc2->getCodigo(masc2))*-1;
+}
+//--------------------------------------------------------------------------
+int compara_CodigoAscM(const void *l1, const void * l2)
+{
+    obj_Mascota *masc1 =  *((obj_Mascota **)l1);
+    obj_Mascota *masc2 =  *((obj_Mascota **)l2);
+    
+    return (masc2->getCodigo(masc2)) - (masc1->getCodigo(masc1))*-1;
+}
+//--------------------------------------------------------------------------
+
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
