@@ -7,6 +7,7 @@
 #define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 #define MAX_CARACTERES 50
 #define fgets(cadena) fgets(cadena,MAX_CARACTERES,stdin)
+<<<<<<< Updated upstream
 
 char cadena[MAX_CARACTERES];
 int codigo;
@@ -30,7 +31,32 @@ int compara_CodigoAscM(const void *l1, const void * l2)
     return (masc2->getCodigo(masc2)) - (masc1->getCodigo(masc1))*-1;
 }
 //--------------------------------------------------------------------------
+=======
+>>>>>>> Stashed changes
 
+char cadena[MAX_CARACTERES];
+int codigo;
+int bandera;
+
+bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
+bool registrar; //permitira controlar si el usuario quiere seguir registrando
+//-------------------------------------------------------------------------
+
+int compara_CodigoDescM(const void *l1, const void * l2){
+    obj_Mascota *mascota1 =  *((obj_Mascota **)l1);
+    obj_Mascota *mascota2 =  *((obj_Mascota **)l2);
+    
+    return (mascota1->getCodigo(mascota1) - mascota2->getCodigo(mascota2))*-1;
+}
+//--------------------------------------------------------------------------
+int compara_CodigoAscM(const void *l1, const void * l2)
+{
+    obj_Mascota *mascota1 =  *((obj_Mascota **)l1);
+    obj_Mascota *mascota2 =  *((obj_Mascota **)l2);
+    
+    return (mascota2->getCodigo(mascota2)) - (mascota1->getCodigo(mascota1))*-1;
+}
+//--------------------------------------------------------------------------
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -153,6 +179,7 @@ obj_Mascota *Mascota_new()
 {
   return (obj_Mascota *)init_obj(sizeof(obj_Mascota), init_Mascota);
 }
+<<<<<<< Updated upstream
 //-----------------LISTAR---------------------------------------
 //listar mascotas
 listarMascotas(){
@@ -166,11 +193,28 @@ listarMascotas(){
 	
 	masc = Mascota_new();
 	size = masc->findAll(masc,&list,NULL);
+=======
+//----------------------LISTAR------------------------------
+//listar Mascotas
+void listarMascotas(char* archivo, bool descendente){
+	
+	printf("\n\t\t\t\tMASCOTAS\n");
+	
+	FILE *salida = stdin;
+	
+	obj_Mascota *mascota, *aux;
+	void *list,*itm;
+	int i,size=0;
+	
+	mascota = Mascota_new();
+	size = mascota->findAll(mascota,&list,NULL);
+>>>>>>> Stashed changes
 	
 	if(archivo != NULL) {
 		printf("Exportando a archivo...\n");
         salida = fopen(archivo, "w+");
     }
+<<<<<<< Updated upstream
 	
 	if (descendente)
 		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoDescM);
@@ -191,9 +235,67 @@ listarMascotas(){
 		else
 			((Object *)itm)->toString(itm);
 	}
+=======
+>>>>>>> Stashed changes
   
+  	if (descendente)
+		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoDescM);
+	else
+		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoAscM)
+		
+	// IMPRIME
+	for(i=0;i<size;++i){
+		itm = ((obj_Mascota **)list)[i];
+		aux = (obj_Mascota*)itm; 
+			
+		if(archivo != NULL)
+			fprintf(salida, "CODIGO:%d  Nombre:%s Especie:%s \n",
+				aux->getCodigo(aux),
+				aux->getNombre(aux),
+				aux->getCodEspecie(aux)
+			);
+		else
+			((Object *)itm)->toString(itm);
+	}
+	
+	if (archivo != NULL){
+	fclose(salida); 
+	printf("\nListado de pacientes exportado\n\n");
+	}
+	printf("\n");
+	destroyObjList(list,size); 
+	destroyObj(pac);
+	
 }
+<<<<<<< Updated upstream
    //Alta mascota
+=======
+
+//+++++++++++++++++++++++++++++++++++++++++++++
+void actualizarMascota()
+{
+	obj_Mascota *mascota;
+	mascota = Mascota_new();
+	
+	printf("USTED ESTA ACTUALIZANDO UNA MASCOTA\n\n");	
+	listarMascotas(NULL,false);
+	
+	do{
+		confirmar = false;
+
+		ingresarNumero("Ingrese el codigo de Documento de la mascota:\t\t",&cadena);
+		codigo = atoi(cadena);
+		
+		if(mascota->findbykey(paciente,codigo) != NOT_FOUND)
+		{
+			ingresarCadena("Ingrese los nombres de la mascota:\t\t\t",&cadena);
+			mascota->setNombres(mascota,cadena);
+ 
+/*
+validarFecha(*char fecha){
+
+}*/
+>>>>>>> Stashed changes
 altaMascota(){
 	char nombre[MAXNOMBRE];
 	char fechaNac[MAXFECHA];

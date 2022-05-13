@@ -6,14 +6,55 @@
 #include "../mascota/mascota.h"
 #include "../diagnostico/diagnostico.h"
 #include "consulta.h"
+<<<<<<< Updated upstream
+=======
+#include <string.h>
+#include <ctype.h>
+
+ typedef struct 
+	{
+		int anio;
+		int mes;
+		int dia;
+	
+	}t_fecha;
+
+typedef struct
+	{
+	    int hora;
+		int min;
+		int seg;
+	}t_hora;
+>>>>>>> Stashed changes
 
 THIS(obj_Consulta)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
 static void toString_ConsultaImpl(void *self)
 {
+<<<<<<< Updated upstream
      obj_Consulta *obj=this(self);
      printf("objConsulta\n");
     //implementar con la mayor cantidad de datos
+=======
+	obj_Consulta *obj=this(self);
+	printf("objConsulta\n");
+    obj_Mascota *mascota = obj->getMascotaObj(obj);
+    obj_Especie *especie = obj->getEspecieObj(obj);
+    obj_Profesional *profesional = obj->getProfesionalObj(obj);
+    obj_Diagnostico *diagnostico = obj->getDiagnosticoObj(obj);
+    
+    printf("Codigo: %d - FNac: %s - hora: %s - Mascota: %d - Profesional: %d - Diagnostico: %d - Especie: %d - Asistio: %d\n",
+	
+	obj->getId(obj),
+	obj->getFecha(obj),
+	obj->getHora(obj),
+	obj->getDocProfesional(obj),
+	obj->getMascotaObj(obj),
+	obj->getDiagnosticoObj(obj),
+	obj->getObservaciones(obj),
+	obj->getAsistio(obj)
+	);
+>>>>>>> Stashed changes
 }
 //----------------------------------------------------
 //implementacion de getters
@@ -70,8 +111,16 @@ static void setObservaciones_C_Impl(void *self,char *obs)
 //----------------------------------------------------
 static void destroyInternalConsulta_Impl(void *self)
 {
+<<<<<<< Updated upstream
 	obj_Consulta *obj = this(self);	
 	// implementar
+=======
+		//Implementado
+		obj_Consulta *obj = this(self);
+   	if( obj->diagnostico != NULL){
+    	destroyObj(obj->diagnostico);
+		}
+>>>>>>> Stashed changes
 }
 //----------------------------------------------------
 //implementacion de relaciones
@@ -79,13 +128,23 @@ static void destroyInternalConsulta_Impl(void *self)
 
 obj_Profesional *getProfesionalConsultaObj_C_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_Consulta *obj = this(self);
+    obj->Profesional = Profesional_new();
+    
+    if(obj->Profesional->findbykey(obj->profesional, obj->getDocProfesional(obj))!= NOT_FOUND)
+    	return obj->profesional;   
 	return NULL;
 }
 //----------------------------------------------------
 obj_Mascota *getMascotaConsultaObj_C_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_Consulta *obj = this(self);
+    obj->Mascota = Mascota_new();
+    
+    if(obj->Masccota->findbykey(obj->Mascota, obj->getCodMascota(obj))!= NOT_FOUND)
+    	return obj->mascota; 
 	return NULL;
 }
 //----------------------------------------------------
@@ -146,6 +205,7 @@ obj_Consulta *Consulta_new()
   return (obj_Consulta *)init_obj(sizeof(obj_Consulta), init_Consulta);
 }
 
+<<<<<<< Updated upstream
 //Alta 
 altaConsulta(){
 	char nombre[MAXNOMBRE], char fecha[MAXFECHA], char hora[MAXHORA], observacion[MAXDESCRIPCION];
@@ -225,5 +285,130 @@ int validarvalidarMascota(){
   	}
     
 	}
+=======
+//----------------------------------------------------------
+void obtenerConsulta(int dni, int codigo){
+	
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
+	
+	char criterio[MAX_SQL];
+
+	void *list, *itm;
+	int i, aux=0;
+	int diagnostico = 0;
+	
+	CLEAR(criterio,MAX_SQL);
+	int size = sprintf(criterio, "nro_dni_cliente=%d and cod_mascota=%d and asistio=TRUE",dni, codigo);
+	size = consulta->findAll(consulta,&list,criterio);
+
+	printf("\n");
+	
+	for(i=0; i<size; ++i){
+		consulta = ((obj_Consulta **)list)[i];
+		
+		diagnostico = consulta->getAsistio(consulta);
+			
+		if (diagnostico)
+			++aux;
+	}
+	++aux;
+	
+	return aux;	
+}
+//------------------------------------------------------------
+
+int obtenerCodDiagnostico(int dni, int codigo){
+
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
+
+	char criterio[MAX_SQL];
+
+	void *list, *itm;
+	int i, aux=0;
+	int diagnostico = 0;
+		
+	CLEAR(criterio,MAX_SQL);
+	int size = sprintf(criterio, "nro_doc_cliente=%d and cod_mascota=%d",dni, codigo);
+	size = consulta->findAll(consulta,&list,criterio);
+
+	consuta = ((obj_Consulta **)list)[size-1];	
+	return consulta->getCodDiagnostico(consulta);
+}
+//------------------------------------------------
+ int verificarConsultasPrevias(int dni, int codigo){
+	
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
+
+	char criterio[MAX_SQL];
+	void *list;
+	int size;
+	int i;
+
+	int consultasAsistidas=0;
+	int estado;
+	int codigoConsulta;
+	char fechaActual[MAXFECHA];
+	strcpy(fechaActual, getFecha());
+
+	CLEAR(criterio,MAX_SQL);
+	//OBTENEMOS TODOS LAS CONSULTAS DE LA MASCOTA 
+	sprintf(criterio, "nro_doc_cliente=%d and cod_mascota<>%d",dni,codigo);
+	size = consulta->findAll(consulta,&list,criterio); // cosnultas totales de la mascota que ha asistido
+
+	if (turnosAsistidos == 0)
+		return 4;		// si no tiene registro lo tratamos como mascota nueva
+	else{
+		obj_Diagnostico *diagnostico;
+		diagnostico = Diagnostico_new();	
+	}
+}
+
+//------------ALTAS------------------------
+
+void altaConsulta()
+{
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
+	
+	bool esClienteNuevo = false; //para comprobar si el cliente es nuevo
+	bool esMascotaNueva = false; //para comprobar si la mascota es nuevo
+	
+	printf("USTED ESTA REGISTRANDO UNA CONSULTA\n\n");
+	
+	// CLIENTE
+	obj_Cliente *cliente;
+	cliente = cliente_new();
+	
+	ingresarNumero("Ingrese el DNI del cliente:\t",&cadena);
+	int codigoDNI = atoi(cadena);
+
+	int codLocalidad;
+	//si no existe se registra, caso contrario se verifica el estado del cliente
+	if (cliente->findbykey(cliente,codigoDNI) == NOT_FOUND){
+		
+		printf("EL CLIENTE NO ESTA REGISTRADO EN EL SISTEMA\n");
+		resp = continuar("Desea registrar al cliente? s/n:\t");
+
+			
+		if (resp){
+			esClienteNuevo = true;
+			consulta->setDocCliente(consulta,codigoDNI);
+			registrarConsulta();		
+			codLocalidad = obtenerCodLocalidad(codigoDNI);
+		}
+		else
+			exit;
+	}else{
+		esClienteNuevo = false;
+		codLocalidad = cliente->getCodPostal(cliente);	
+	}
+	
+	obj_Localidad *loc;
+	loc = Localidad_new();
+
+>>>>>>> Stashed changes
 }
 

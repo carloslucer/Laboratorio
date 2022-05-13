@@ -3,7 +3,7 @@
 #include "cliente.h"
 #define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 #define MAX_CARACTERES 50
-#define fgets(cadena) fgets(cadena,MAX_CARACTERES,stdin)
+
 
 char cadena[MAX_CARACTERES];
 int codigo;
@@ -12,6 +12,7 @@ int bandera;
 bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 
+<<<<<<< Updated upstream
 int compara_CodigoDescC(const void *l1, const void * l2){
     obj_Cliente *clie1 =  *((obj_Cliente **)l1);
     obj_Cliente *clie2 =  *((obj_Cliente **)l2);
@@ -27,6 +28,9 @@ int compara_CodigoAscC(const void *l1, const void * l2)
     return (clie2->getDni(clie2)) - (clie1->getDni(clie1))*-1;
 }
 //--------------------------------------------------------------------------
+=======
+
+>>>>>>> Stashed changes
 
 THIS(obj_Cliente)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -201,76 +205,7 @@ void listarClientes(char* archivo, bool descendente){
 	destroyObjList(list,size); 
 	destroyObj(cliente);
 }
-
-//-------------------ActualizarCliente---------------------------------
-
-void actualizarCliente()
-{
-	obj_Cliente *cliente;
-	cliente = Cliente_new();
-	
-	printf("USTED ESTA ACTUALIZANDO UN CLIENTE\n\n");
-	listarClientes(NULL,false);
-	
-	do{
-		confirmar = false;
-		
-		ingresarNumero("Ingrese el Numero de Documento del cliente:\t\t",&cadena);
-		codigo = atoi(cadena);
-		
-		if(cliente->findbykey(cliente,codigo) != NOT_FOUND)
-		{
-			ingresarCadena("Ingrese el/los apellido/s del cliente:\t\t\t",&cadena);
-			cliente->setApellido(cliente,cadena);
 			
-			ingresarCadena("Ingrese los nombres del cliente:\t\t\t",&cadena);
-			cliente->setNombres(cliente,cadena);
-			
-			ingresarCadena("Ingrese el domicilio del cliente:\t\t\t",&cadena);
-			cliente->setDomicilio(cliente,cadena);
-			
-			obj_Localidad *localidad;
-			localidad = Localidad_new();
-			
-			listarLocalidades(NULL,false);
-			
-			bool reintentar;
-			
-			do{
-				reintentar = false;
-				
-				ingresarNumero("Ingrese el nuevo codigo postal del cliente:\t\t\t", &cadena);
-				codigo = atoi(cadena);
-				
-				if(localidad->findbykey(localidad,codigo) != NOT_FOUND)
-				{
-					cliente->sedCodPostal(cliente,codigo);
-					
-					ingresarNumero("Ingrese el numero de telefono:\t\t\t\t",&cadena);
-					cliente->setTelefono(cliente,cadena);
-					
-					ingresarCadena("Ingrese observaciones:\t\t\t\t\t", &cadena);
-					cliente->setObservaciones(cliente,cadena);
-					
-					if(!cliente->saveObj(cliente))
-						printf("\nOcurrio un error al agregar al cliente:\n%s\n",getLastError());
-					else
-						printf("\nCLIENTE ACTUALIZADO\n");
-					
-					system("pause");
-					destroyObj(localidad);
-				}else{
-					printf("\nERROR: no se pudo encontrar la localidad\n\n");
-					reintentar = continuar(MSJ_REINTENTAR);
-				}					
-			}while(reintentar);
-		}else{
-			printf("\nERROR: cliente no encontrado\n\n");
-			confirmar = continuar(MSJ_REINTENTAR);
-		}
-	}while(confirmar);
-	destroyObj(cliente);
-}			
 //-------------------ALTAS---------------------------------------------
 void altaCliente(){
   
@@ -345,6 +280,21 @@ int obtenerCodLocalidad(int dni){
 	clie = ((obj_Cliente **)list)[size-1];
 	return clie->getCodPostal(clie);
 }
+//--------------Ordenamientos----------------------------
+int compara_CodigoDescC(const void *l1, const void * l2){
+    obj_Cliente *clie1 =  *((obj_Cliente **)l1);
+    obj_Cliente *clie2 =  *((obj_Cliente **)l2);
+    
+    return (clie1->getDni(clie1) - clie2->getDni(clie2))*-1;
+}
+//--------------------------------------------------------------------------
+int compara_CodigoAscC(const void *l1, const void * l2)
+{
+    obj_Cliente *clie1 =  *((obj_Cliente **)l1);
+    obj_Cliente *clie2 =  *((obj_Cliente **)l2);
+    
+    return (clie2->getDni(clie2)) - (clie1->getDni(clie1))*-1;
+}
 
 //-------------ListadoDeClientesPorLocalidad------------
 
@@ -391,4 +341,72 @@ listarClientePorLocalidad(char* archivo, bool descendente){
 		printf("\nListado de clientes exportado\n\n");
 	}
 }
+//-------------------ActualizarCliente---------------------------------
 
+void actualizarCliente()
+{
+	obj_Cliente *cliente;
+	cliente = Cliente_new();
+	
+	printf("USTED ESTA ACTUALIZANDO UN CLIENTE\n\n");
+	listarClientes(NULL,false);
+	
+	do{
+		confirmar = false;
+		
+		ingresarNumero("Ingrese el Numero de Documento del cliente:\t\t",&cadena);
+		codigo = atoi(cadena);
+		
+		if(cliente->findbykey(cliente,codigo) != NOT_FOUND)
+		{
+			ingresarCadena("Ingrese el/los apellido/s del cliente:\t\t\t",&cadena);
+			cliente->setApellido(cliente,cadena);
+			
+			ingresarCadena("Ingrese los nombres del cliente:\t\t\t",&cadena);
+			cliente->setNombres(cliente,cadena);
+			
+			ingresarCadena("Ingrese el domicilio del cliente:\t\t\t",&cadena);
+			cliente->setDomicilio(cliente,cadena);
+			
+			obj_Localidad *localidad;
+			localidad = Localidad_new();
+			
+			listarLocalidades(NULL,false);
+			
+			bool reintentar;
+			
+			do{
+				reintentar = false;
+				
+				ingresarNumero("Ingrese el nuevo codigo postal del cliente:\t\t\t", &cadena);
+				codigo = atoi(cadena);
+				
+				if(localidad->findbykey(localidad,codigo) != NOT_FOUND)
+				{
+					cliente->sedCodPostal(cliente,codigo);
+					
+					ingresarNumero("Ingrese el numero de telefono:\t\t\t\t",&cadena);
+					cliente->setTelefono(cliente,cadena);
+					
+					ingresarCadena("Ingrese observaciones:\t\t\t\t\t", &cadena);
+					cliente->setObservaciones(cliente,cadena);
+					
+					if(!cliente->saveObj(cliente))
+						printf("\nOcurrio un error al agregar al cliente:\n%s\n",getLastError());
+					else
+						printf("\nCLIENTE ACTUALIZADO\n");
+					
+					system("pause");
+					destroyObj(localidad);
+				}else{
+					printf("\nERROR: no se pudo encontrar la localidad\n\n");
+					reintentar = continuar(MSJ_REINTENTAR);
+				}					
+			}while(reintentar);
+		}else{
+			printf("\nERROR: cliente no encontrado\n\n");
+			confirmar = continuar(MSJ_REINTENTAR);
+		}
+	}while(confirmar);
+	destroyObj(cliente);
+}
