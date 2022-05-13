@@ -37,7 +37,11 @@ static void setCodEspecie_M_Impl(void *self,int val)
 static void destroyInternalTratamiento_Impl(void *self)
 {
 	obj_Tratamiento *obj = this(self);	
-	// implementar
+	if(obj->especie!=NULL)
+	{	
+	  destroyObj(obj->especie);
+	  obj->especie = NULL;
+	}
 }
 //----------------------------------------------------
 //implementacion de relaciones

@@ -56,6 +56,12 @@ static void setFechaHasta_MT_Impl(void *self,char *fhasta)
 static void destroyInternalMascotaTratamiento_Impl(void *self)
 {
 	obj_MascotaTratamiento *obj = this(self);	
+	if(obj->tratamiento!=NULL)
+	{	
+	  destroyObj(obj->tratamiento);
+	  obj->tratamiento = NULL;
+	}
+	
 	// implementar
 }
 //----------------------------------------------------

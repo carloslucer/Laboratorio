@@ -1,14 +1,6 @@
 #include "../../includes/includelib.h"
 #include "localidad.h"
 #define MAXNOMBRELOCALIDAD 80
-#define fgets(cadena) fgets(cadena,MAXNOMBRELOCALIDAD,stdin)
-#define MSJ_REINTENTAR "Desea reintentar la operacion? s/n:\t"
-
-char cadena[MAXNOMBRELOCALIDAD];
-int codigo;
-
-bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
-bool registrar; //permitira controlar si el usuario quiere seguir registrando
 
 THIS(obj_Localidad)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -94,7 +86,8 @@ destroyObj(localidad);
 return codPostal;
 }
 //-------------ALTA---------------
-altaLocalidad(){
+altaLocalidad()
+{
 	int idcodigoPostal;
 	char nombre[MAXNOMBRELOCALIDAD];
 	obj_Localidad *localidad;
@@ -109,7 +102,9 @@ altaLocalidad(){
 	}
 	destroyObj(localidad);
 	
-	}
+}
+	
+
 
   
 

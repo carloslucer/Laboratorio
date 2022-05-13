@@ -7,6 +7,7 @@
 #include "../diagnostico/diagnostico.h"
 #include "consulta.h"
 #include <string.h>
+#include <ctype.h>
 
  typedef struct 
 	{
@@ -120,7 +121,10 @@ static void setObservaciones_C_Impl(void *self,char *obs)
 static void destroyInternalConsulta_Impl(void *self)
 {
 	obj_Consulta *obj = this(self);
-	// implementar
+    if( obj->diagnostico != NULL){
+    	destroyObj(obj->diagnostico);
+	}
+	
 }
 //----------------------------------------------------
 //implementacion de relaciones
@@ -140,12 +144,7 @@ obj_Mascota *getMascotaConsultaObj_C_Impl(void *self)
 //----------------------------------------------------
 obj_Diagnostico *getDiagnosticoConsultaObj_C_Impl(void *self)
 {
-	obj_Diagnostico *obj = this(self);	
-	obj->localidad = Localidad_new();
-	if(obj->localidad->findbykey(obj->localidad,obj->getCodPostal(obj))!=NOT_FOUND)
-	  {
-	  	return obj->localidad;
-	  }
+	/// implementar
 	return NULL;
 }
 
@@ -245,12 +244,6 @@ t_fecha convertirFecha(char* fecha){
 int esFechaMayor(char *fecha1 ,char *fecha2){  //devuelve 1 si la fecha2 es mayor o igual a la fecha 1
 	t_fecha f1 = convertirFecha(fecha1);
 	t_fecha f2 = convertirFecha(fecha2);
-	printf("es mayor anio  %d\n",f1.anio);
-	printf("es mayor anio  %d\n",f2.anio);
-	printf("es mayor anio q1 %d\n",f1.mes);
-	printf("es mayor anio q1 %d\n",f2.mes);
-	printf("es mayor anio q1 %d\nd",f1.dia);
-	printf("es mayor anio q1 %d\n",f2.dia);
 	
    if (f1.anio <= f2.anio && f1.mes < f2.mes){
    	return 1;
@@ -264,6 +257,7 @@ int esFechaMayor(char *fecha1 ,char *fecha2){  //devuelve 1 si la fecha2 es mayo
    
 }
 
+
 validarFecha(char* fecha)
 {
 	
@@ -271,9 +265,8 @@ validarFecha(char* fecha)
 	printf("ingrese fecha de la consulta: formato  yyyy-mm-dd \n");
 	do
 	{   
-	    
+	    fflush(stdin);
 		fgets(fecha,MAXFECHA-1,stdin);
-		fflush(stdin);
 		if ((strlen(fecha)-1) == 10) {
 		      	char auxFecha[MAXFECHA];
 				strcpy(auxFecha,fecha);
@@ -306,7 +299,40 @@ validarFecha(char* fecha)
 
 
 validarHora(char* hora){
-   
+
+    int esHoraValida =0;
+    
+	printf("ingrese Hora de la consulta: formato HH:mm:ss \n");
+	do
+	{ 	
+	    fflush(stdin);
+	    fgets(hora,MAXFECHA-1,stdin);
+		if ((strlen(hora)-1) == 8) 
+	    {
+		      	char auxHora[MAXFECHA];
+				strcpy(auxHora,hora);	
+				char *hora;   
+			    char *min;      
+			    char *seg;
+			    
+			    hora=strtok(auxHora,"-");
+			    min=strtok(NULL,"-");
+			    seg=strtok(NULL,"-");
+			    
+			    //validamos que sea una fecha 
+		    	if(hora[2] ==':' && hora[5] ==':' && atoi(hora) < 24  && atoi(hora) > 0 && atoi(min)<60  && atoi(min) >=0  &&  atoi(seg) <60 && atoi(seg)>=0  )
+				{   
+			    	   esHoraValida=1;
+				
+				}else printf("ingrese un hora valida sdf");
+			   
+	
+			   	
+		}else printf("ingrese un fecha valida \n");
+    }
+    while(!esHoraValida);   
+	
+	
 	
 }
 

@@ -45,6 +45,14 @@ static void setCantidad_MM_Impl(void *self,int val)
 static void destroyInternalMascotaMedicamento_Impl(void *self)
 {
 	obj_MascotaMedicamento *obj = this(self);	
+		
+	if(obj->tratamiento!=NULL)
+	{	
+	  destroyObj(obj->tratamiento);
+	  obj->tratamiento = NULL;
+	}
+	
+	
 	// implementar
 }
 //----------------------------------------------------
