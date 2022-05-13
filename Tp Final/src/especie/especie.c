@@ -69,3 +69,46 @@ obj_Especie *Especie_new()
 altaEspecie(){
   
 }
+listarEspecie(){
+	  int size,i;
+	  void *list,*itm;
+	  obj_Especie *especie;
+	  especie = Especie_new();
+  
+      size = especie->findAll(especie,&list,NULL);
+  
+	  for(i=0;i<size;++i)
+	  {
+	    itm = ((Object **)list)[i];    
+	    ((Object *)itm)->toString(itm);
+	    printf("\n");
+	    fflush(stdin);
+	
+	  }
+	  
+  destroyObjList(list,size);
+  destroyObj(especie);
+  
+}	
+		
+
+int validarEspecie( ){
+	obj_Especie *especie;
+	especie = Especie_new();
+	int codEspecie=0;
+    int especieValida=0;
+    do{
+	    printf("ingrese el codigo de la especie los siguientes son los validos \n");
+	    listarEspecie();
+	    fflush(stdin);
+	    scanf("%d", &codEspecie);
+	    if(especie->findbykey(especie,codEspecie) == NOT_FOUND)
+		{ 
+            printf("codigo no existe \n");
+	 	}
+	 	else codEspecie = 1;
+    }
+	while(!especieValida); 
+    destroyObj(especie);
+    return codEspecie; 	
+}

@@ -141,20 +141,20 @@ obj_Profesional *Profesional_new()
 }
 //----------------------------------------------------
 altaProfesional(){
-int dni, codPostal;
+    int dni, codPostal;
     char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO], matricula[MAXMATRICULA];
-  obj_Profesional *profesional;
+    obj_Profesional *profesional;
     profesional = Profesional_new();
     
-  printf("ALTA PROFESIONAL \n");
-  printf("ingrese dni: \n");
-  scanf("%d", &dni);
-  fflush(stdin);
-  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
-    profesional->setDni(profesional,dni);
+	  printf("ALTA PROFESIONAL \n");
+	  printf("ingrese dni: \n");
+	  fflush(stdin);
+	  scanf("%d", &dni);
+	  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
+	  profesional->setDni(profesional,dni);
    
-   printf("ingrese matricula: \n");
-   fgets(nombre,MAXNOMBRE-1,stdin); 
+    printf("ingrese matricula: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin); 
    	profesional->setMatricula(profesional,matricula);
    
     printf("ingrese nombre del profesional:  \n");
@@ -176,7 +176,7 @@ int dni, codPostal;
     codPostal = validarCodigoPostal();
     profesional->setCodPostal(profesional,codPostal);   
     
-      printf("ingrese observaciones: \n");
+    printf("ingrese observaciones: \n");
     fgets(observacion,MAXOBSERVACION-1,stdin);
     profesional->setObservaciones(profesional,observacion);
     fflush(stdin);

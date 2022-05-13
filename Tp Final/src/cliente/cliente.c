@@ -217,7 +217,7 @@ int validarDniCliente(){
    int dni;	  
    obj_Cliente *cliente;
    cliente = Cliente_new();
-  printf("ingrese dni: \n");
+  printf("ingrese dni del cliente: \n");
   while(!valido){
   scanf("%d", &dni);
   fflush(stdin);

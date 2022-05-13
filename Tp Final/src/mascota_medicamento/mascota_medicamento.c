@@ -52,8 +52,7 @@ static void destroyInternalMascotaMedicamento_Impl(void *self)
 	  obj->tratamiento = NULL;
 	}
 	
-	
-	// implementar
+
 }
 //----------------------------------------------------
 //implementacion de relaciones

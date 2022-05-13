@@ -324,7 +324,7 @@ validarHora(char* hora){
 				{   
 			    	   esHoraValida=1;
 				
-				}else printf("ingrese un hora valida sdf");
+				}else printf("ingrese un hora valida \n");
 			   
 	
 			   	
@@ -400,7 +400,7 @@ altaConsulta()
 	consulta->setHora(consulta,hora);
     
     obj_Profesional *profesional;
-	profesional = Profesional_new();;
+	profesional = Profesional_new();
 
 	printf("ingrese dni del profesional que atendera la consulta: \n");
 	scanf("%d", &dni);
@@ -408,10 +408,11 @@ altaConsulta()
 
 	if(profesional->findbykey(profesional,dni) == NOT_FOUND)
 	 {
-	    printf("profesional no exite desea ingresarlo? si / no");
-	    char resp[3];
-	    fgets(resp,sizeof(resp)-1,stdin);
-	    if(resp == "si")
+	    printf("profesional no exite desea ingresarlo? 1:si | 2:no /n ");
+	    int resp;
+	    fflush(stdin);
+	    scanf("%d",resp);
+	    if(resp == 1)
 		{
 	     altaProfesional();
 		}
@@ -419,12 +420,35 @@ altaConsulta()
 			   exit;
 		     }
       }
-	 profesional->setDni(profesional,dni);
-    
-    printf("ingrese el codigo de la mascota");
-	scanf("%d", &codMascota);
+      consulta->setDocProfesional(consulta,dni);
+        
+		obj_Mascota *mascota;
+		mascota = Mascota_new();	
+		
+	    printf("ingrese el codigo de la mascota");
+		scanf("%d", &codMascota);
+		
+	 if(mascota->findbykey(mascota,codMascota) == NOT_FOUND)
+	 {
+	    printf("la mascota no existe desea darla de alta? 1:si | 2:no \n");
+	    int resp;
+	    fflush(stdin);
+	    scanf("%d",resp);
+	    if(resp == 1)
+		{
+	     altaMascota();
+		}
+		else{
+			   exit;
+		     }
+      }
+      consulta->setCodMascota(consulta,codMascota);
+	
 	fflush(stdin);
-	  	
+	destroyObj(consulta);
+		destroyObj(profesional);
+			destroyObj(mascota);
+		
 }
 	  	
 	  	
