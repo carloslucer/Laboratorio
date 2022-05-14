@@ -11,21 +11,22 @@ int bandera;
 bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 
-
-int compara_CodigoDescC(const void *l1, const void * l2){
+//--------------Ordenamientos----------------------------
+int compara_CodigoDesc(const void *l1, const void * l2){
     obj_Cliente *clie1 =  *((obj_Cliente **)l1);
     obj_Cliente *clie2 =  *((obj_Cliente **)l2);
     
     return (clie1->getDni(clie1) - clie2->getDni(clie2))*-1;
 }
 //--------------------------------------------------------------------------
-int compara_CodigoAscC(const void *l1, const void * l2)
+int compara_CodigoAsc(const void *l1, const void * l2)
 {
     obj_Cliente *clie1 =  *((obj_Cliente **)l1);
     obj_Cliente *clie2 =  *((obj_Cliente **)l2);
     
     return (clie2->getDni(clie2)) - (clie1->getDni(clie1))*-1;
 }
+
 //--------------------------------------------------------------------------
 
 
@@ -162,12 +163,12 @@ void listarClientes(char* archivo, bool descendente){
 	
 	FILE *salida = stdin;
 	
-	obj_Cliente *clie, *aux;
+	obj_Cliente *cliente, *aux;
 	void *list,*itm;
 	int i,size=0;
 	
-	clie = Cliente_new();
-	size = clie->findAll(clie,&list,NULL);
+	cliente = Cliente_new();
+	size = cliente->findAll(cliente,&list,NULL);
 	
 	if(archivo != NULL) {
 		printf("Exportando a archivo...\n");
@@ -175,9 +176,9 @@ void listarClientes(char* archivo, bool descendente){
     }
     
 	if (descendente)
-		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoDescC);
+		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoDesc);
 	else
-		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoAscC);
+		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoAsc);
 		
 	// IMPRIME
 	for(i=0;i<size;++i){
@@ -277,21 +278,7 @@ int obtenerCodLocalidad(int dni){
 	clie = ((obj_Cliente **)list)[size-1];
 	return clie->getCodPostal(clie);
 }
-//--------------Ordenamientos----------------------------
-int compara_CodigoDescC(const void *l1, const void * l2){
-    obj_Cliente *clie1 =  *((obj_Cliente **)l1);
-    obj_Cliente *clie2 =  *((obj_Cliente **)l2);
-    
-    return (clie1->getDni(clie1) - clie2->getDni(clie2))*-1;
-}
-//--------------------------------------------------------------------------
-int compara_CodigoAscC(const void *l1, const void * l2)
-{
-    obj_Cliente *clie1 =  *((obj_Cliente **)l1);
-    obj_Cliente *clie2 =  *((obj_Cliente **)l2);
-    
-    return (clie2->getDni(clie2)) - (clie1->getDni(clie1))*-1;
-}
+
 
 //-------------ListadoDeClientesPorLocalidad------------
 
@@ -315,9 +302,9 @@ listarClientePorLocalidad(char* archivo, bool descendente){
 	size = clie->findAll(clie,&list,criterio);
 	
 	if (descendente)
-		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoDescC);
+		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoDesc);
 	else
-		qsort(list, size, sizeof(obj_Cliente*)),compara_CodigoAscC);
+		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoAsc);
 
 	
 	for(i=0; i<size; ++i){
@@ -342,6 +329,7 @@ listarClientePorLocalidad(char* archivo, bool descendente){
 
 void actualizarCliente()
 {
+	int codigo;
 	obj_Cliente *cliente;
 	cliente = Cliente_new();
 	
@@ -380,7 +368,7 @@ void actualizarCliente()
 				
 				if(localidad->findbykey(localidad,codigo) != NOT_FOUND)
 				{
-					cliente->sedCodPostal(cliente,codigo);
+					cliente->setCodPostal(cliente,codigo);
 					
 					ingresarNumero("Ingrese el numero de telefono:\t\t\t\t",&cadena);
 					cliente->setTelefono(cliente,cadena);

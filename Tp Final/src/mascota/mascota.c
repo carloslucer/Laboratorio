@@ -6,7 +6,9 @@
 #include<stdbool.h>
 #define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 #define MAX_CARACTERES 50
-#define fgets(cadena) fgets(cadena,MAX_CARACTERES,stdin)
+#define MAX_OBSERVACION 250
+#define MAXNOMBRE 80
+
 
 
 char cadena[MAX_CARACTERES];
@@ -41,21 +43,7 @@ bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 //-------------------------------------------------------------------------
 
-int compara_CodigoDescM(const void *l1, const void * l2){
-    obj_Mascota *mascota1 =  *((obj_Mascota **)l1);
-    obj_Mascota *mascota2 =  *((obj_Mascota **)l2);
-    
-    return (mascota1->getCodigo(mascota1) - mascota2->getCodigo(mascota2))*-1;
-}
-//--------------------------------------------------------------------------
-int compara_CodigoAscM(const void *l1, const void * l2)
-{
-    obj_Mascota *mascota1 =  *((obj_Mascota **)l1);
-    obj_Mascota *mascota2 =  *((obj_Mascota **)l2);
-    
-    return (mascota2->getCodigo(mascota2)) - (mascota1->getCodigo(mascota1))*-1;
-}
-//--------------------------------------------------------------------------
+
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -179,23 +167,9 @@ obj_Mascota *Mascota_new()
   return (obj_Mascota *)init_obj(sizeof(obj_Mascota), init_Mascota);
 }
 
-//-----------------LISTAR---------------------------------------
-//listar mascotas
-listarMascotas(){
-	 printf("\n\t\t\t\tMASCOTAS\n");
-	
-	FILE *salida = stdin;
-	
-	obj_Mascota *masc, *aux;
-	void *list,*itm;
-	int i,size=0;
-	
-	masc = Mascota_new();
-	size = masc->findAll(masc,&list,NULL);
-
 //----------------------LISTAR------------------------------
 //listar Mascotas
-void listarMascotas(char* archivo, bool descendente){
+listarMascotas(char* archivo, bool descendente){
 	
 	printf("\n\t\t\t\tMASCOTAS\n");
 	
@@ -239,7 +213,7 @@ void listarMascotas(char* archivo, bool descendente){
   	if (descendente)
 		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoDescM);
 	else
-		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoAscM)
+		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoAscM);
 	
 	if (archivo != NULL){
 	fclose(salida); 
@@ -247,13 +221,12 @@ void listarMascotas(char* archivo, bool descendente){
 	}
 	printf("\n");
 	destroyObjList(list,size); 
-	destroyObj(mascota);
-	
+	destroyObj(mascota);	
 }
 
 
 //------------------Actualizacion---------------------
-void actualizarMascota()
+actualizarMascota()
 {
 	obj_Mascota *mascota;
 	mascota = Mascota_new();
@@ -267,17 +240,19 @@ void actualizarMascota()
 		ingresarNumero("Ingrese el codigo de Documento de la mascota:\t\t",&cadena);
 		codigo = atoi(cadena);
 		
-		if(mascota->findbykey(paciente,codigo) != NOT_FOUND)
+		if(mascota->findbykey(mascota,codigo) != NOT_FOUND)
 		{
 			ingresarCadena("Ingrese los nombres de la mascota:\t\t\t",&cadena);
-			mascota->setNombres(mascota,cadena);
- 
+			mascota->setNombre(mascota,cadena);
+ 		}
+ 	}while(1);
+}
 /*
 validarFecha(*char fecha){
 
 }*/
 
-void altaMascota(){
+altaMascota(){
 	
 	   char nombre[MAXNOMBRE]; char fechaNac[MAXFECHA]; int codEspecie; int dni; int vacunado; char observacion[MAX_OBSERVACION];
 	   obj_Mascota *mascota;
@@ -320,7 +295,8 @@ void altaMascota(){
 	           printf("error al guardar la mascota \n");
 	         }
 
-   destroyObj(mascota);
-   destroyObj(cliente);
-  
-}
+   		destroyObj(mascota);
+   		destroyObj(cliente);
+	}
+
+

@@ -1,6 +1,6 @@
 #include "../../includes/includelib.h"
 #include "especie.h"
-#define MAXNOMBRE 5;
+#define MAXNOMBRE 5
 
 THIS(obj_Especie)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -71,30 +71,28 @@ void altaEspecie(){
 	char nombre[MAXNOMBRE];
 	int idEspecie;
 	 obj_Especie *especie;
-  especie = Especie_new();
-  
-  printf("ingrese el codigo de la especie  \n");
-     scanf("%d", &idEspecie);
-  fflush(stdin);
-  if(mascota->findbykey(mascota,idEspecie) == NOT_FOUND){
-    mascota->setId (mascota,idEspecie);
+  	especie = Especie_new();
   
   printf("ALTA ESPECIE \n");
   printf("Ingrese nombre de la especie: \n");
    fgets(nombre,MAXNOMBRE-1,stdin);
-    mascota->setNombre(mascota,nombre);
+
+	if(existeEspecie(nombre)){
+  	printf("La especie ya existe\n");
+  	exit(1);
+  }
+    especie->setNombre(especie,nombre);
     
-  
+    
   if(especie->saveObj(especie)){ 
     printf("especie guardado correctamente \n");
       }
     else{
      printf("error al guardar la especie \n");
     }
-   }
-   else{
-    printf("especie ya existe \n");
-   }
+   
+   destroy(especie);
+}
 //---------------Listado-----------------------
 void listarEspecie(){
 	  int size,i;
@@ -118,7 +116,7 @@ void listarEspecie(){
   
 }
 
-int validarEspecie( ){
+int validarEspecie(){
 	obj_Especie *especie;
 	especie = Especie_new();
 	int codEspecie=0;

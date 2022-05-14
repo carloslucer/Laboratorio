@@ -8,6 +8,7 @@
 #include "consulta.h"
 #include <string.h>
 #include <ctype.h>
+#define MAXDESCRIPCION 150
 
  typedef struct 
 	{
@@ -29,17 +30,26 @@ THIS(obj_Consulta)// crea definicion de funcion this para este modulo. .. Macro 
 //----------------------------------------------------
 static void toString_ConsultaImpl(void *self)
 {
-
+	int codigo;
      obj_Consulta *obj=this(self);
      printf("objConsulta\n");
+     codigo=obj->diagnostico->getId;
+     
+     obj_Diagnostico *diagnostico;
+     diagnostico = diagnostico_new();
+     
+     obj_Mascota *mascota;
+     mascota = mascota_new();
+          
+     if(findbykey(obj->diagnostico, obj->getCodDiagnostico(obj))!= NOT_FOUND)
+     diagnostico->toString;
+     
+     codigo=obj->mascota->getCodigo;
+     
+     if(findbykey(obj->mascota, obj->getCodMascota(obj))!= NOT_FOUND)
+     diagnostico->toString;
+     
     //implementado
-
-	obj_Consulta *obj=this(self);
-	printf("objConsulta\n");
-    obj_Mascota *mascota = obj->getMascotaObj(obj);
-    obj_Especie *especie = obj->getEspecieObj(obj);
-    obj_Profesional *profesional = obj->getProfesionalObj(obj);
-    obj_Diagnostico *diagnostico = obj->getDiagnosticoObj(obj);
     
     printf("Codigo: %d - FNac: %s - hora: %s - Mascota: %d - Profesional: %d - Diagnostico: %d - Especie: %d - Asistio: %d\n",
 	
@@ -124,9 +134,9 @@ obj_Profesional *getProfesionalConsultaObj_C_Impl(void *self)
 {
 	/// implementado
 	obj_Consulta *obj = this(self);
-    obj->Profesional = Profesional_new();
-    
-    if(obj->Profesional->findbykey(obj->profesional, obj->getDocProfesional(obj))!= NOT_FOUND)
+    obj->profesional = Profesional_new();
+
+    if(obj->profesional->findbykey(obj->profesional, obj->getDocProfesional(obj))!= NOT_FOUND)
     	return obj->profesional;   
 	return NULL;
 }
@@ -135,9 +145,9 @@ obj_Mascota *getMascotaConsultaObj_C_Impl(void *self)
 {
 	/// implementado
 	obj_Consulta *obj = this(self);
-    obj->Mascota = Mascota_new();
+    obj->mascota = Mascota_new();
     
-    if(obj->Masccota->findbykey(obj->Mascota, obj->getCodMascota(obj))!= NOT_FOUND)
+    if(obj->mascota->findbykey(obj->mascota, obj->getCodMascota(obj))!= NOT_FOUND)
     	return obj->mascota; 
 	return NULL;
 }
@@ -149,7 +159,7 @@ obj_Diagnostico *getDiagnosticoConsultaObj_C_Impl(void *self)
     obj->diagnostico = Diagnostico_new();
     
      
-    if(obj->diagnostico->findbykey(obj->Diagnostico, obj->getCodDiagnostico(obj))!= NOT_FOUND)
+    if(obj->diagnostico->findbykey(obj->diagnostico, obj->getCodDiagnostico(obj))!= NOT_FOUND)
     	return obj->diagnostico;
 	return NULL;
 }
@@ -206,45 +216,90 @@ obj_Consulta *Consulta_new()
 }
 
 
-//Alta 
-altaConsulta(){
-	char nombre[MAXNOMBRE], char fecha[MAXFECHA], char hora[MAXHORA], observacion[MAXDESCRIPCION];
-	int idConsulta, dni;
-	 obj_Consulta *consulta;
-  consulta = Consulta_new();
-  
-  printf("ingrese el codigo de la consulta:  \n");
-     scanf("%d", &idConsulta);
-  fflush(stdin);
-  if(consulta->findbykey(consulta,idConsulta) == NOT_FOUND){
-    consulta->setId (consulta,idConsulta);
-}
+//-----------------------------Alta------------------------------------------------------
+void altaConsulta(){
+char  fecha[MAXFECHA],  hora[MAXFECHA];
+	int idConsulta, dni,codMascota;
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
 
-	 printf("ALTA CONSULTA \n");
- 	 printf("ingrese fecha de la consulta: \n");
- 	 fgets(fecha,MAXFECHA-1,stdin);
- 	 consulta->setFecha(consulta,fecha);
-
-	printf("ingrese una hora: \n");
-	validarHora(hora);
-
-	printf("ingrese dni del profesional: \n");
- 	  scanf("%d", &dni);
-  fflush(stdin);
-  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
-    profesional->setDni(profesional,dni);
-
-  	 listarMascota();
-  	 validarMascota();
-     scanf("%d", &CodMascota);
-  fflush(stdin);
-  if(mascota->findbykey(mascota,codEspecie) == NOT_FOUND){
-    mascota->setCodigo(mascota,codEspecie);
-    
-	printf("ingrese observacion de la consulta: \n");
-		fgets(observacion,MAXOBSERVACION-1,stdin);
-    consulta->setObservaciones(consulta,observacion);
+	printf("ALTA CONSULTA \n");
+	int turnoDisponible=0;
+	do{
+	
+		
+		char fecha[MAXFECHA];
+		char hora[MAXFECHA];
+	    validarFecha(fecha);
+	    validarHora(hora);
+		if (consultaExiste(fecha,hora)){
+			printf("ya existe una consulta para esa fecha y hora desea ingresar nuevamente los datos si / no");
+	        char resp[3];
+		    fgets(resp,sizeof(resp)-1,stdin);
+		    if(resp == "no")
+			{
+				exit;
+			}
+        }else{
+            turnoDisponible=1;
+		}
+			
 	}
+    while(!turnoDisponible);
+    
+   	consulta->setFecha(consulta,fecha);
+	consulta->setHora(consulta,hora);
+    
+    obj_Profesional *profesional;
+	profesional = Profesional_new();
+
+	printf("ingrese dni del profesional que atendera la consulta: \n");
+	scanf("%d", &dni);
+	fflush(stdin);
+
+	if(profesional->findbykey(profesional,dni) == NOT_FOUND)
+	 {
+	    printf("profesional no exite desea ingresarlo? 1:si | 2:no /n ");
+	    int resp;
+	    fflush(stdin);
+	    scanf("%d",resp);
+	    if(resp == 1)
+		{
+	     altaProfesional();
+		}
+		else{
+			   exit;
+		     }
+      }
+      consulta->setDocProfesional(consulta,dni);
+        
+		obj_Mascota *mascota;
+		mascota = Mascota_new();	
+		
+	    printf("ingrese el codigo de la mascota");
+		scanf("%d", &codMascota);
+		
+	 if(mascota->findbykey(mascota,codMascota) == NOT_FOUND)
+	 {
+	    printf("la mascota no existe desea darla de alta? 1:si | 2:no \n");
+	    int resp;
+	    fflush(stdin);
+	    scanf("%d",resp);
+	    if(resp == 1)
+		{
+	     altaMascota();
+		}
+		else{
+			   exit;
+		     }
+      }
+      consulta->setCodMascota(consulta,codMascota);
+	
+	fflush(stdin);
+	destroyObj(consulta);
+		destroyObj(profesional);
+			destroyObj(mascota);
+}
     
 //-------------------listar---------------------------------
 void listarConsultas(){
@@ -429,24 +484,6 @@ void obtenerConsulta(int dni, int codigo){
 }
 //------------------------------------------------------------
 
-int obtenerCodDiagnostico(int dni, int codigo){
-
-	obj_Consulta *consulta;
-	consulta = Consulta_new();
-
-	char criterio[MAX_SQL];
-
-	void *list, *itm;
-	int i, aux=0;
-	int diagnostico = 0;
-		
-	CLEAR(criterio,MAX_SQL);
-	int size = sprintf(criterio, "nro_doc_cliente=%d and cod_mascota=%d",dni, codigo);
-	size = consulta->findAll(consulta,&list,criterio);
-
-	consuta = ((obj_Consulta **)list)[size-1];	
-	return consulta->getCodDiagnostico(consulta);
-}
 
 int consultaExiste(char *fecha,char *hora){
     int consultaExiste=0;
@@ -496,7 +533,7 @@ int consultaExiste(char *fecha,char *hora){
 	sprintf(criterio, "nro_doc_cliente=%d and cod_mascota<>%d",dni,codigo);
 	size = consulta->findAll(consulta,&list,criterio); // cosnultas totales de la mascota que ha asistido
 
-	if (turnosAsistidos == 0)
+	if (consultasAsistidas == 0)
 		return 4;		// si no tiene registro lo tratamos como mascota nueva
 	else{
 		obj_Diagnostico *diagnostico;
@@ -587,6 +624,8 @@ void altaConsulta()
 	destroyObj(consulta);
 		destroyObj(profesional);
 			destroyObj(mascota);		
+	
+	}
 }
 
 

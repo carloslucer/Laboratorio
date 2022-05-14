@@ -98,7 +98,7 @@ altaLocalidad(){
 	
   printf("ingrese nombre de la localidad: \n");
   fgets(nombre,MAXNOMBRELOCALIDAD-1,stdin);
-  localidad->setNombre(localidad, MAXNOMBRELOCALIDAD);
+  localidad->setNombre(localidad, nombre);
   
   if(!localidad->saveObj(localidad))
 {

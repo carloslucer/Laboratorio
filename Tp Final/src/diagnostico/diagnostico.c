@@ -1,5 +1,6 @@
 #include "../../includes/includelib.h"
 #include "diagnostico.h"
+#define MAXNOMBRE 60
 
 THIS(obj_Diagnostico)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -67,35 +68,38 @@ obj_Diagnostico *Diagnostico_new()
 }
 //--------------Alta --------------------------------------
 
-altaDiagnostico(){
+void altaDiagnostico(){
 	char nombre[MAXNOMBRE];
 	int idDiagnostico;
+	
+	obj_Diagnostico *diagnostico;
+  	diagnostico = Diagnostico_new();
 	
 	 printf("ingrese el codigo del diagnostico:  \n");
      scanf("%d", &idDiagnostico);
   fflush(stdin);
-  if(diagnostico->findbykey(diagnostico,idDiagnostico) == NOT_FOUND){
-    diagnostico->setId (diagnsotico,idDiagnostico);
+	  if(diagnostico->findbykey(diagnostico,idDiagnostico) == NOT_FOUND){
+	    diagnostico->setId(diagnostico,idDiagnostico);
 
-
- printf("ALTA DIAGNOSTICO \n");
-  printf("Ingrese nombre del diagnostico: \n");
-   fgets(nombre,MAXNOMBRE-1,stdin);
-    diagnostico->setNombre(diagnostico,nombre);
-    
-     if(diagnostico->saveObj(diagnostico)){ 
-    printf("diagnostico guardado correctamente \n");
-      }
-    else{
-     printf("error al guardar el diagnostico \n");
-    }
-   else{
-    printf("diagnostico ya existe \n");
+	
+	 printf("ALTA DIAGNOSTICO \n");
+	  printf("Ingrese nombre del diagnostico: \n");
+	   fgets(nombre,MAXNOMBRE-1,stdin);
+	    diagnostico->setNombre(diagnostico,nombre);
+	    
+	     if(diagnostico->saveObj(diagnostico)){ 
+	    printf("diagnostico guardado correctamente \n");
+	      }
+	    else{
+	     printf("error al guardar el diagnostico \n");
+	    }
+	}else
+	    printf("diagnostico ya existe \n");
+	  	
    }
-  }
-}
 
-listaDiagnostico(){
+//----------------------Listar----------------------------
+void listaDiagnostico(){
   int size,i;
   void *list,*itm;
   obj_Diagnostico *diagnostico;
