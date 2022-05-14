@@ -135,7 +135,7 @@ obj_Profesional *Profesional_new()
   return (obj_Profesional *)init_obj(sizeof(obj_Profesional), init_Profesional);
 }
 //------------------Alta----------------------------------
-altaProfesional(){
+void altaProfesional(){
 	int dni, codPostal, matricula;
     char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO];
   obj_Profesional *profesional;
@@ -188,8 +188,8 @@ altaProfesional(){
   destroyObj(profesional);
 }
 
-//Listar
-listarProfesionales(){
+//--------------Listar-----------------------------------------
+void listarProfesionales(){
 	int size,i;
   void *list,*itm;
   obj_profesional *profesional;

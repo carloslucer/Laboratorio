@@ -50,8 +50,14 @@ static void setCantidad_M_Impl(void *self,int val)
 //----------------------------------------------------
 static void destroyInternalMedicamento_Impl(void *self)
 {
+	// implementado
 	obj_Medicamento *obj = this(self);	
-	// implementar
+	
+	if(obj->tratamiento!=NULL)
+	{	
+	  destroyObj(obj->tratamiento);
+	  obj->tratamiento = NULL;
+	}
 }
 //----------------------------------------------------
 //implementacion de relaciones
@@ -59,7 +65,15 @@ static void destroyInternalMedicamento_Impl(void *self)
 
 obj_Especie *getEspecieMedicamentoObj_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_Medicamento *obj = this(self);
+	
+	if(obj->especie!=NULL)
+	{
+		destroyObj(obj->especie)
+		obj->especie = NULL;
+	}
+	
 	return NULL;
 }
 //----------------------------------------------------
@@ -102,9 +116,9 @@ obj_Medicamento *Medicamento_new()
 {
   return (obj_Medicamento *)init_obj(sizeof(obj_Medicamento), init_Medicamento);
 }
-//----------------------------------------------------
-//alta
-altaMedicamento(){
+//--------------------Altas--------------------------------
+//altaMedicamento
+void altaMedicamento(){
 	int idMedicamento, codEspecie, cantidad;
 	char descripcion[MAXDESCRIPCION];
 	double importe;	
@@ -143,7 +157,7 @@ altaMedicamento(){
     else{
      printf("error al guardar el medicamento \n");
     }
-   }
+   
    else{
     printf("medicamento ya existe \n");
    }
@@ -151,10 +165,9 @@ altaMedicamento(){
 }
     
     
-}
 
-//Listar 
-listarTurnos(){
+//--------------------Listar----------------------------------------- 
+void listarTurnos(){
 int size,i;
   void *list,*itm;
   obj_Mascota *mascota;

@@ -7,7 +7,7 @@
 #define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 #define MAX_CARACTERES 50
 #define fgets(cadena) fgets(cadena,MAX_CARACTERES,stdin)
-<<<<<<< Updated upstream
+
 
 char cadena[MAX_CARACTERES];
 int codigo;
@@ -31,8 +31,7 @@ int compara_CodigoAscM(const void *l1, const void * l2)
     return (masc2->getCodigo(masc2)) - (masc1->getCodigo(masc1))*-1;
 }
 //--------------------------------------------------------------------------
-=======
->>>>>>> Stashed changes
+
 
 char cadena[MAX_CARACTERES];
 int codigo;
@@ -179,7 +178,7 @@ obj_Mascota *Mascota_new()
 {
   return (obj_Mascota *)init_obj(sizeof(obj_Mascota), init_Mascota);
 }
-<<<<<<< Updated upstream
+
 //-----------------LISTAR---------------------------------------
 //listar mascotas
 listarMascotas(){
@@ -193,7 +192,7 @@ listarMascotas(){
 	
 	masc = Mascota_new();
 	size = masc->findAll(masc,&list,NULL);
-=======
+
 //----------------------LISTAR------------------------------
 //listar Mascotas
 void listarMascotas(char* archivo, bool descendente){
@@ -208,13 +207,13 @@ void listarMascotas(char* archivo, bool descendente){
 	
 	mascota = Mascota_new();
 	size = mascota->findAll(mascota,&list,NULL);
->>>>>>> Stashed changes
+
 	
 	if(archivo != NULL) {
 		printf("Exportando a archivo...\n");
         salida = fopen(archivo, "w+");
     }
-<<<<<<< Updated upstream
+
 	
 	if (descendente)
 		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoDescM);
@@ -235,43 +234,25 @@ void listarMascotas(char* archivo, bool descendente){
 		else
 			((Object *)itm)->toString(itm);
 	}
-=======
->>>>>>> Stashed changes
+
   
   	if (descendente)
 		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoDescM);
 	else
 		qsort(list, size, sizeof(obj_Mascota*),compara_CodigoAscM)
-		
-	// IMPRIME
-	for(i=0;i<size;++i){
-		itm = ((obj_Mascota **)list)[i];
-		aux = (obj_Mascota*)itm; 
-			
-		if(archivo != NULL)
-			fprintf(salida, "CODIGO:%d  Nombre:%s Especie:%s \n",
-				aux->getCodigo(aux),
-				aux->getNombre(aux),
-				aux->getCodEspecie(aux)
-			);
-		else
-			((Object *)itm)->toString(itm);
-	}
 	
 	if (archivo != NULL){
 	fclose(salida); 
-	printf("\nListado de pacientes exportado\n\n");
+	printf("\nListado de mascotas exportado\n\n");
 	}
 	printf("\n");
 	destroyObjList(list,size); 
-	destroyObj(pac);
+	destroyObj(mascota);
 	
 }
-<<<<<<< Updated upstream
-   //Alta mascota
-=======
 
-//+++++++++++++++++++++++++++++++++++++++++++++
+
+//------------------Actualizacion---------------------
 void actualizarMascota()
 {
 	obj_Mascota *mascota;
@@ -295,57 +276,51 @@ void actualizarMascota()
 validarFecha(*char fecha){
 
 }*/
->>>>>>> Stashed changes
-altaMascota(){
-	char nombre[MAXNOMBRE];
-	char fechaNac[MAXFECHA];
 
-	int codEspecie;
-
-	int dni;
-obj_Mascota *mascota;
-  mascota = Mascota_new();
-  obj_Cliente *cliente;
-  cliente = Cliente_new();
+void altaMascota(){
 	
-	printf("ALTA MASCOTA \n");
-	 printf("ingrese nombre de la mascota: \n");
-    fgets(nombre,MAXNOMBRE-1,stdin);
-    mascota->setNombre(mascota,nombre);
-
- 	 printf("ingrese fecha de nacimiento: \n");
- 	 fgets(fechaNac,MAXFECHA-1,stdin);
- 	 mascota->setFechaNac(mascota,fechaNac);
- 	 
- 	  printf("ingrese dni del cliente: \n");
- 	  scanf("%d", &dni);
-  fflush(stdin);
-  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
-    cliente->setDni(cliente,dni);
-   
-     printf("ingrese el codigo de la especie  \n");
-     scanf("%d", &CodEspecie);
-  fflush(stdin);
-  if(mascota->findbykey(mascota,codEspecie) == NOT_FOUND){
-    mascota->setCodigo(mascota,codEspecie);
-
-    printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
-    	scanf("%d", &vacunado);
-    fflush(stdin);
-		}
-    printf("ingrese observacion de la moscota \n");
+	   char nombre[MAXNOMBRE]; char fechaNac[MAXFECHA]; int codEspecie; int dni; int vacunado; char observacion[MAX_OBSERVACION];
+	   obj_Mascota *mascota;
+	   mascota = Mascota_new();
+	   obj_Cliente *cliente;
+	   cliente = Cliente_new();
+	
+		printf("ALTA MASCOTA \n");
+		printf("ingrese nombre de la mascota: \n");
+	    fflush(stdin);
+		fgets(nombre,MAXNOMBRE-1,stdin);
+	    mascota->setNombre(mascota,nombre);
+	
+		fgets(fechaNac,MAXFECHA-1,stdin);
+	    ingresarFecha("ingrese la fecha de nacimiento",fechaNac);
+	 	mascota->setFechaNac(mascota,fechaNac);
+	 	 
+	    dni = validarDniCliente();
+	    cliente->setDni(cliente,dni);
+		   
+	   
+	    codEspecie = validarEspecie();
+	    mascota->setCodEspecie(mascota,codEspecie);
+	
+	    printf("ingrese 1 si la mascota esta vacunada o ingrese 0 si la mascota no esta vacunada \n");
+	    fflush(stdin);
+	    scanf("%d", &vacunado);
+	    mascota->setVacunado(mascota,vacunado);
+		
+	    printf("ingrese observacion de la moscota \n");
 		fgets(observacion,MAXOBSERVACION-1,stdin);
-    mascota->setObservaciones(mascota,observacion);
-	}
+	    mascota->setObservaciones(mascota,observacion);
 	
-	 if(mascota->saveObj(mascota)){ 
-    printf("mascota guardada correctamente \n");
-      }
-    else{
-     printf("error al guardar la mascota \n");
-    }
-   }
-   else{
-    printf("mascota ya existe \n");
-   }
+	
+		 if(mascota->saveObj(mascota))
+		 { 
+	         printf("mascota guardada correctamente \n");
+	     }
+	     else{
+	           printf("error al guardar la mascota \n");
+	         }
+
+   destroyObj(mascota);
+   destroyObj(cliente);
+  
 }

@@ -4,6 +4,7 @@
 #include "../tratamiento/tratamiento.h"
 #include "../medicamento/medicamento.h"
 #include "mascota_medicamento.h"
+#define MAXNOMBRE 50
 
 THIS(obj_MascotaMedicamento)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -44,8 +45,15 @@ static void setCantidad_MM_Impl(void *self,int val)
 //----------------------------------------------------
 static void destroyInternalMascotaMedicamento_Impl(void *self)
 {
+	// implementado	
 	obj_MascotaMedicamento *obj = this(self);	
-	// implementar
+		
+	if(obj->tratamiento!=NULL)
+	{	
+	  destroyObj(obj->tratamiento);
+	  obj->tratamiento = NULL;
+	}
+	
 }
 //----------------------------------------------------
 //implementacion de relaciones
@@ -53,13 +61,24 @@ static void destroyInternalMascotaMedicamento_Impl(void *self)
 
 obj_Tratamiento *getTratamientoMascotaMedicamentoObj_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_TratamientoMascotaMedicamento *obj = this(self);
+    obj->mascota = Mascota_new();
+
+    if(obj->mascota->findbykey(obj->mascota, obj->getId(obj))!= NOT_FOUND)
+    	return obj->mascota
 	return NULL;
 }
 //----------------------------------------------------
 obj_Medicamento *getMedicamentoMascotaMedicamentoObj_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_Medicamento *obj = this(self);
+    obj->mascota = Mascota_new();
+
+    if(obj->mascota->findbykey(obj->mascota, obj->getId(obj))!= NOT_FOUND)
+    	return obj->mascota
+	
 	return NULL;
 }
 //----------------------------------------------------
@@ -100,8 +119,60 @@ obj_MascotaMedicamento *MascotaMedicamento_new()
 {
   return (obj_MascotaMedicamento *)init_obj(sizeof(obj_MascotaMedicamento), init_MascotaMedicamento);
 }
-//----------------------------------------------------
-listarMedicamentosMascota(){
+
+//---------------------Altas--------------------------------
+void altaMascotaMedicamento(){
+	int idMascotaMedicamento, codMedicamento, codTratamiento;
+	double cantidad;
+	
+	obj_Medicamento *medicamento;
+	medicamento = Medicamento_new();
+    obj_Tratamiento *tratamiento;
+	tratamiento = tratamiento_new();
+	
+		printf("ALTA MASCOTA-MEDICAMENTO \n");
+		
+		printf("ingrese codigo del medicamento : \n");
+		scanf("%d", &codMedicamento);
+  		fflush(stdin);
+  		 if(medicamento->findbykey(medicamento,codMedicamento) == NOT_FOUND){
+    	  medicamento->setId(medicamento, codMedicamento);
+			}
+			printf("ingrese codigo del tratamiento : \n");
+  			scanf("%d", &codTratamiento);
+  			fflush(stdin);
+   			if(tratamiento->findbykey(tratamiento,codTratamiento) == NOT_FOUND){
+    		medicamento->setId(tratamiento, codTratamiento);
+				}
+  		
+  		printf("Ingrese la cantidad : \n");
+    	scanf("%lf", &cantidad);
+    	fflush(stdin);
+    	return 0;
+    	
+    	if(medicamento->saveObj(medicamento)){ 
+    	printf("medicamento guardado correctamente \n");
+      		}
+    		else{
+     			printf("error al guardar el medicamento \n");
+    }
+   
+   		if(medicamento->saveObj(tratamiento)){ 
+    		printf("tratamiento guardado correctamente \n");
+      		}
+    		else{
+     		printf("error al guardar el tratamiento \n");
+    		}
+   
+  			destroyObj(medicamento);
+  			destroyObj(tratamiento);  
+}
+
+
+
+
+//----------------------Listar------------------------------
+void listarMedicamentosMascota(){
 	int size,i;
   void *list,*itm;
   obj_Medicamento *medicamento;

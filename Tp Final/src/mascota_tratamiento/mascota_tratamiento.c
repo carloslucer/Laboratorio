@@ -55,8 +55,14 @@ static void setFechaHasta_MT_Impl(void *self,char *fhasta)
 //----------------------------------------------------
 static void destroyInternalMascotaTratamiento_Impl(void *self)
 {
+	// implementado
 	obj_MascotaTratamiento *obj = this(self);	
-	// implementar
+	if(obj->tratamiento!=NULL)
+	{	
+	  destroyObj(obj->tratamiento);
+	  obj->tratamiento = NULL;
+	}
+	
 }
 //----------------------------------------------------
 //implementacion de relaciones
@@ -64,13 +70,23 @@ static void destroyInternalMascotaTratamiento_Impl(void *self)
 
 obj_Tratamiento *getTratamientoMascotaTratamientoObj_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_TratamientoMascotaMedicamento *obj = this(self);
+    obj->mascotaTratamiento = Tratamiento_new();
+
+    if(obj->mascotaTratamiento->findbykey(obj->mascotaTratamiento, obj->getidTratamiento(obj))!= NOT_FOUND)
+    	return obj->mascotaTratamiento
 	return NULL;
 }
 //----------------------------------------------------
 obj_Consulta *getConsultaMascotaTratamientoObj_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_ConsultaMascotaTratamiento *obj = this(self);
+    obj->consultaTratamiento = ConsultaTratamiento_new();
+
+    if(obj->consultaTratamiento->findbykey(obj->consultaTratamiento, obj->getidTratamiento(obj))!= NOT_FOUND)
+    	return obj->consultaTratamiento
 	return NULL;
 }
 //----------------------------------------------------
@@ -113,4 +129,57 @@ obj_MascotaTratamiento *MascotaTratamiento_new()
 {
   return (obj_MascotaTratamiento *)init_obj(sizeof(obj_MascotaTratamiento), init_MascotaTratamiento);
 }
-//----------------------------------------------------
+//-------------Altas---------------------------------------
+
+void altaMascotaTratamiento(){
+	int idMascotaTratamiento, codConsulta, codTratamiento;
+	fechaDesde[MAXFECHA], fechaHasta[MAXFECHA];
+	
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
+    obj_Tratamiento *tratamiento;
+	tratamiento = tratamiento_new();
+	
+		printf("ALTA MASCOTA-TRATAMIENTO \n");
+		
+		printf("ingrese codigo de la consulta : \n");
+		scanf("%d", &codConsulta);
+  		fflush(stdin);
+  		 if(consulta->findbykey(consulta,codConsulta) == NOT_FOUND){
+    	  consulta->setId(consulta, codConsulta);
+			}
+			printf("ingrese codigo del tratamiento de la mascota : \n");
+  			scanf("%d", &codTratamiento);
+  			fflush(stdin);
+   			if(tratamiento->findbykey(tratamiento,codTratamiento) == NOT_FOUND){
+    		medicamento->setId(tratamiento, codTratamiento);
+				}
+				
+			fgets(fechaDesde,MAXFECHA-1,stdin);
+	    	ingresarFecha("ingrese la fecha desde: \n",fechaDesde);
+	 		consulta->setFecha(consulta,fechaDesde);
+	 		
+	 		fgets(fechaHasta,MAXFECHA-1,stdin);
+	    	ingresarFecha("ingrese la fecha hasta: \n",fechaHasta);
+	 		consulta->setFecha(consulta,fechaHasta);
+	 		
+	 		if(consulta->saveObj(consulta)){ 
+    		printf("consulta guardada correctamente \n");
+      		}
+    		else{
+     		printf("error al guardar la consulta \n");
+    }
+   
+   		if(tratamiento->saveObj(tratamiento)){ 
+    		printf("tratamiento guardado correctamente \n");
+      	}
+    	else{
+     		printf("error al guardar el tratamiento \n");
+    		}
+    		
+  		destroyObj(consulta);
+  		destroyObj(tratamiento); 
+}
+
+//------------------Listar--------------------------------
+

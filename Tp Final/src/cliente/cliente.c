@@ -1,9 +1,8 @@
 #include "../../includes/includelib.h"
 #include "../localidad/localidad.h"
 #include "cliente.h"
-#define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 #define MAX_CARACTERES 50
-
+#define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 
 char cadena[MAX_CARACTERES];
 int codigo;
@@ -12,7 +11,7 @@ int bandera;
 bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 
-<<<<<<< Updated upstream
+
 int compara_CodigoDescC(const void *l1, const void * l2){
     obj_Cliente *clie1 =  *((obj_Cliente **)l1);
     obj_Cliente *clie2 =  *((obj_Cliente **)l2);
@@ -28,9 +27,7 @@ int compara_CodigoAscC(const void *l1, const void * l2)
     return (clie2->getDni(clie2)) - (clie1->getDni(clie1))*-1;
 }
 //--------------------------------------------------------------------------
-=======
 
->>>>>>> Stashed changes
 
 THIS(obj_Cliente)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -260,7 +257,7 @@ void altaCliente(){
 	}while(confirmar);
      
      destroyObj(cliente);
-     destroyObj(localidad);
+     destroyObj(localidad);	
 }
 //-------------validarLocalidad----------------------
 

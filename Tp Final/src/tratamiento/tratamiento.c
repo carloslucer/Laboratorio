@@ -45,7 +45,14 @@ static void destroyInternalTratamiento_Impl(void *self)
 
 obj_Especie *getEspecieTratamientoObj_Impl(void *self)
 {
-	/// implementar
+	/// implementado
+	obj_Especie *obj = this(self);
+	
+	if(obj->tratamiento!=NULL)
+	{
+		destroyObj(obj->tratamiento)
+		obj->tratamiento = NULL;
+	}
 	return NULL;
 }
 //----------------------------------------------------
@@ -83,8 +90,49 @@ obj_Tratamiento *Tratamiento_new()
 {
   return (obj_Tratamiento *)init_obj(sizeof(obj_Tratamiento), init_Tratamiento);
 }
+
+//---------------------Altas--------------------------------
+void altaTratamiento(){
+	int idTratamiento, codEspecie;
+	char descripcion[MAXDESCRIPCION];
+	
+	obj_Tratamiento *tratamiento;
+  	tratamiento = Tratamiento_new();
+  	
+  	printf("ALTA TRATAMIENTO \n")
+  	printf("ingrese codigo del tratamiento : \n")
+  	scanf("%d", &idTratamiento);
+  	fflush(stdin);
+   	if(tratamiento->findbykey(tratamiento,idTratamiento) == NOT_FOUND){
+    tratamiento->setId(tratamiento, idTratamiento);
+	}
+	printf("Ingrese descripcion : \n") 
+   fgets(descripcion,MAXDESCRIPCION-1,stdin);
+   tratamiento->setDescripcion(tratamiento,descripcion);
+	
+	
+   printf("ingrese el codigo de la especie  \n");
+     scanf("%d", &idEspecie);
+  	fflush(stdin);
+  	if(tratamiento->findbykey(tratamiento,codEspecie) == NOT_FOUND){
+    tratamiento->setCodEspecie (tratamiento,codEspecie);
+	}
+	
+	if(tratamiento->saveObj(tratamiento)){ 
+    printf("tratamiento guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar el tratamiento \n");
+    }
+   
+   else{
+    printf("tratamiento ya existe \n");
+   }
+  destroyObj(tratamiento);
+}
+
 //--------------Listar--------------------------------------
-listarTratamientosMascota(){
+void listarTratamientosMascota(){
 	int size,i;
   void *list,*itm;
   obj_especie *especie;
