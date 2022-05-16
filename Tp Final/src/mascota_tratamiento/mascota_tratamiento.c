@@ -71,22 +71,22 @@ static void destroyInternalMascotaTratamiento_Impl(void *self)
 obj_Tratamiento *getTratamientoMascotaTratamientoObj_Impl(void *self)
 {
 	/// implementado
-	obj_TratamientoMascotaMedicamento *obj = this(self);
-    obj->mascotaTratamiento = Tratamiento_new();
+	obj_MascotaTratamiento *obj = this(self);
+    obj->tratamiento = Tratamiento_new();
 
-    if(obj->mascotaTratamiento->findbykey(obj->mascotaTratamiento, obj->getidTratamiento(obj))!= NOT_FOUND)
-    	return obj->mascotaTratamiento
+    if(obj->tratamiento->findbykey(obj->tratamiento, obj->getId(obj))!= NOT_FOUND)
+    	return obj->tratamiento;
 	return NULL;
 }
 //----------------------------------------------------
 obj_Consulta *getConsultaMascotaTratamientoObj_Impl(void *self)
 {
 	/// implementado
-	obj_ConsultaMascotaTratamiento *obj = this(self);
-    obj->consultaTratamiento = ConsultaTratamiento_new();
+	obj_MascotaTratamiento *obj = this(self);
+    obj->consulta = Consulta_new();
 
-    if(obj->consultaTratamiento->findbykey(obj->consultaTratamiento, obj->getidTratamiento(obj))!= NOT_FOUND)
-    	return obj->consultaTratamiento
+    if(obj->consulta->findbykey(obj->consulta, obj->getCodConsulta(obj))!= NOT_FOUND)
+    	return obj->consulta;
 	return NULL;
 }
 //----------------------------------------------------
@@ -132,8 +132,8 @@ obj_MascotaTratamiento *MascotaTratamiento_new()
 //-------------Altas---------------------------------------
 
 void altaMascotaTratamiento(){
-	int idMascotaTratamiento, codConsulta, codTratamiento;
-	fechaDesde[MAXFECHA], fechaHasta[MAXFECHA];
+	int codConsulta, codTratamiento;
+	char fechaDesde[MAXFECHA], fechaHasta[MAXFECHA];
 	
 	obj_Consulta *consulta;
 	consulta = Consulta_new();
@@ -152,7 +152,7 @@ void altaMascotaTratamiento(){
   			scanf("%d", &codTratamiento);
   			fflush(stdin);
    			if(tratamiento->findbykey(tratamiento,codTratamiento) == NOT_FOUND){
-    		medicamento->setId(tratamiento, codTratamiento);
+    		tratamiento->setId(tratamiento, codTratamiento);
 				}
 				
 			fgets(fechaDesde,MAXFECHA-1,stdin);

@@ -1,6 +1,13 @@
 #include "../../includes/includelib.h"
 #include "../localidad/localidad.h"
 #include "profesional.h"
+#define MAXNOMBRE 80
+#define MAXAPELLIDO 90
+#define MAXDOMICILIO 120
+#define MAXOBSERVACION 250
+#define MAXTELEFONO 20
+#define MAXMATRICULA 10
+
 
 THIS(obj_Profesional)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -135,24 +142,24 @@ obj_Profesional *Profesional_new()
   return (obj_Profesional *)init_obj(sizeof(obj_Profesional), init_Profesional);
 }
 //------------------Alta----------------------------------
-void altaProfesional(){
-	int dni, codPostal, matricula;
-    char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO];
-  obj_Profesional *profesional;
+altaProfesional(){
+    int dni, codPostal;
+    char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO], matricula[MAXMATRICULA];
+    obj_Profesional *profesional;
     profesional = Profesional_new();
     
-  printf("ALTA PROFESIONAL \n");
-  printf("ingrese dni: \n");
-  scanf("%d", &dni);
-  fflush(stdin);
-  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
-    profesional->setDni(profesional,dni);
-    
-   if(profesional->findbykey(profesional,matricula) == NOT_FOUND){
-   	profesional->setMatricula(profesional,matricula)
-   }
-     
-    printf("ingrese nombre del profesional: \n");
+	  printf("ALTA PROFESIONAL \n");
+	  printf("ingrese dni: \n");
+	  fflush(stdin);
+	  scanf("%d", &dni);
+	  if(profesional->findbykey(profesional,dni) == NOT_FOUND){
+	  profesional->setDni(profesional,dni);
+   
+    printf("ingrese matricula: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin); 
+   	profesional->setMatricula(profesional,matricula);
+   
+    printf("ingrese nombre del profesional:  \n");
     fgets(nombre,MAXNOMBRE-1,stdin);
     profesional->setNombres(profesional,nombre);
     
@@ -171,11 +178,11 @@ void altaProfesional(){
     codPostal = validarCodigoPostal();
     profesional->setCodPostal(profesional,codPostal);   
     
-      printf("ingrese observaciones: \n");
+    printf("ingrese observaciones: \n");
     fgets(observacion,MAXOBSERVACION-1,stdin);
     profesional->setObservaciones(profesional,observacion);
-    
-    if(cliente->saveObj(profesional)){ 
+    fflush(stdin);
+    if(profesional->saveObj(profesional)){ 
     printf("profesional guardado correctamente \n");
       }
     else{
@@ -186,14 +193,15 @@ void altaProfesional(){
     printf("profesional ya existe \n");
    }
   destroyObj(profesional);
+  
 }
 
 //--------------Listar-----------------------------------------
 void listarProfesionales(){
 	int size,i;
   void *list,*itm;
-  obj_profesional *profesional;
-  profesional = profesional_new();
+  obj_Profesional *profesional;
+  profesional = Profesional_new();
   
   size = profesional->findAll(profesional,&list,NULL);
   

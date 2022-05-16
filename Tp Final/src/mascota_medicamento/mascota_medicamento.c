@@ -62,9 +62,9 @@ static void destroyInternalMascotaMedicamento_Impl(void *self)
 obj_Tratamiento *getTratamientoMascotaMedicamentoObj_Impl(void *self)
 {
 	/// implementado
-	*obj = this(self);
+	obj_MascotaMedicamento *obj = this(self);
     obj->tratamiento = Tratamiento_new();
-	if(obj->tratamiento->findbykey(obj->tratamiento,obj->get(obj))!=NOT_FOUND)
+	if(obj->tratamiento->findbykey(obj->tratamiento, obj->getCodTratamiento(obj))!=NOT_FOUND)
 	  {
 	  	return obj->tratamiento;
 	  }
@@ -75,10 +75,10 @@ obj_Medicamento *getMedicamentoMascotaMedicamentoObj_Impl(void *self)
 {
 	/// implementado
 	obj_Medicamento *obj = this(self);
-    obj->mascota = Mascota_new();
+    obj->especie = Especie_new();
 
-    if(obj->mascota->findbykey(obj->mascota, obj->getId(obj))!= NOT_FOUND)
-    	return obj->mascota->
+    if(obj->especie->findbykey(obj->especie, obj->getCodEspecie(obj))!= NOT_FOUND)
+    	return obj->especie;
 	
 	return NULL;
 }

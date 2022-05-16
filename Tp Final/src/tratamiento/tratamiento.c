@@ -2,6 +2,7 @@
 #include "../localidad/localidad.h"
 #include "../especie/especie.h"
 #include "tratamiento.h"
+#define MAXDESCRIPCION 100
 
 THIS(obj_Tratamiento)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -46,13 +47,13 @@ static void destroyInternalTratamiento_Impl(void *self)
 obj_Especie *getEspecieTratamientoObj_Impl(void *self)
 {
 	/// implementado
-	obj_Especie *obj = this(self);
+	obj_Tratamiento *obj = this(self);
 	
-	if(obj->tratamiento!=NULL)
-	{
-		destroyObj(obj->tratamiento)
-		obj->tratamiento = NULL;
-	}
+	obj->especie = Especie_new();
+	if(obj->especie->findbykey(obj->especie,obj->getCodEspecie(obj))!=NOT_FOUND)
+	  {
+	  	return obj->especie;
+	  }
 	return NULL;
 }
 //----------------------------------------------------
@@ -93,31 +94,24 @@ obj_Tratamiento *Tratamiento_new()
 
 //---------------------Altas--------------------------------
 void altaTratamiento(){
-	int idTratamiento, codEspecie;
+	int  codEspecie;
 	char descripcion[MAXDESCRIPCION];
 	
 	obj_Tratamiento *tratamiento;
   	tratamiento = Tratamiento_new();
   	
-  	printf("ALTA TRATAMIENTO \n")
-  	printf("ingrese codigo del tratamiento : \n")
-  	scanf("%d", &idTratamiento);
-  	fflush(stdin);
-   	if(tratamiento->findbykey(tratamiento,idTratamiento) == NOT_FOUND){
-    tratamiento->setId(tratamiento, idTratamiento);
-	}
-	printf("Ingrese descripcion : \n") 
+  	printf("ALTA TRATAMIENTO \n");
+  	
+	printf("Ingrese descripcion del medicamento : \n");
    fgets(descripcion,MAXDESCRIPCION-1,stdin);
-   tratamiento->setDescripcion(tratamiento,descripcion);
+ 	 if(!tratamientoExiste(descripcion)){
+ 	 	tratamiento->setDescripcion(tratamiento,descripcion);
 	
 	
    printf("ingrese el codigo de la especie  \n");
-     scanf("%d", &idEspecie);
-  	fflush(stdin);
-  	if(tratamiento->findbykey(tratamiento,codEspecie) == NOT_FOUND){
-    tratamiento->setCodEspecie (tratamiento,codEspecie);
-	}
-	
+   	 codEspecie=validarEspecie();
+   	 tratamiento->setCodEspecie(tratamiento,codEspecie);
+   	
 	if(tratamiento->saveObj(tratamiento)){ 
     printf("tratamiento guardado correctamente \n");
       }
@@ -125,20 +119,43 @@ void altaTratamiento(){
      printf("error al guardar el tratamiento \n");
     }
    
-   else{
+   }else{
     printf("tratamiento ya existe \n");
    }
   destroyObj(tratamiento);
+}
+
+tratamientoExiste(char *descripcion){
+   int size,i;
+  void *list,*itm;
+  obj_Tratamiento *tratamiento;
+  tratamiento = Tratamiento_new();
+  
+  size = tratamiento->findAll(tratamiento,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    tratamiento=((obj_Tratamiento *)itm);
+    if(tratamiento->getDescripcion == descripcion){
+    	return 1;
+    }else
+    	return 0;
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(tratamiento);
+
 }
 
 //--------------Listar--------------------------------------
 void listarTratamientosMascota(){
 	int size,i;
   void *list,*itm;
-  obj_especie *especie;
-  especie = Especie_new();
+  obj_Tratamiento *tratamiento;
+  tratamiento = Tratamiento_new();
   
-  size = especie->findAll(especie,&list,NULL);
+  size = tratamiento->findAll(tratamiento,&list,NULL);
   
   for(i=0;i<size;++i)
   {
@@ -150,7 +167,7 @@ void listarTratamientosMascota(){
   }
   
   destroyObjList(list,size);
-  destroyObj(especie);
+  destroyObj(tratamiento);
   
 }
 

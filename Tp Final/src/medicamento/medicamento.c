@@ -53,10 +53,10 @@ static void destroyInternalMedicamento_Impl(void *self)
 	// implementado
 	obj_Medicamento *obj = this(self);	
 	
-	if(obj->tratamiento!=NULL)
+	if(obj->especie!=NULL)
 	{	
-	  destroyObj(obj->tratamiento);
-	  obj->tratamiento = NULL;
+	  destroyObj(obj->especie);
+	  obj->especie = NULL;
 	}
 }
 //----------------------------------------------------
@@ -68,13 +68,12 @@ obj_Especie *getEspecieMedicamentoObj_Impl(void *self)
 	/// implementado
 	obj_Medicamento *obj = this(self);
 	
-	if(obj->especie!=NULL)
-	{
-		destroyObj(obj->especie)
-		obj->especie = NULL;
-	}
-	
+	obj->especie = Especie_new();
+
+    if(obj->especie->findbykey(obj->especie, obj->getCodEspecie(obj))!= NOT_FOUND)
+    	return obj->especie;
 	return NULL;
+	
 }
 //----------------------------------------------------
 //implementacion constructor
@@ -119,37 +118,30 @@ obj_Medicamento *Medicamento_new()
 //--------------------Altas--------------------------------
 //altaMedicamento
 void altaMedicamento(){
-	int idMedicamento, codEspecie, cantidad;
+	int codEspecie, cantidad;
 	char descripcion[MAXDESCRIPCION];
 	double importe;	
 	obj_Medicamento *medicamento;
   medicamento = Medicamento_new();
   
-  printf("ALTA MEDICAMENTO \n")
-  printf("ingrese codigo del medicamento : \n")
-  scanf("%d", &idMedicamento);
-  fflush(stdin);
-   if(medicamento->findbykey(medicamento,idMedicamento) == NOT_FOUND){
-    medicamento->setId(medicamento, idMedicamento);
-	}
-	 printf("Ingrese descripcion : \n") 
-   fgets(descripcion,MAXDESCRIPCION-1,stdin);
-   medicamento->setDescripcion(medicamento,descripcion);
+  printf("ALTA MEDICAMENTO \n");
+  
+	 printf("Ingrese descripcion del medicamento : \n");
+	 fgets(descripcion,MAXDESCRIPCION-1,stdin);
+ 	 if(!medicamentoExiste(descripcion)){
+ 	 	medicamento->setDescripcion(medicamento,descripcion);
+		
    
-   printf("ingrese el codigo de la especie  \n");
-     scanf("%d", &idEspecie);
-  fflush(stdin);
-  if(medicamento->findbykey(medicamento,codEspecie) == NOT_FOUND){
-    medicamento->setCodEspecie (medicamento,codEspecie);
-	}
+   	codEspecie=validarEspecie();
+   
     printf("Ingrese el importe : \n");
+    	fflush(stdin);
     	scanf("%lf", &importe);
-    fflush(stdin);
-    return 0;
+    
     
     printf("Ingrese cantidad : \n");
     	scanf("%d", &cantidad);
-    return 0;
+    
     
      if(medicamento->saveObj(medicamento)){ 
     printf("medicamento guardado correctamente \n");
@@ -157,23 +149,43 @@ void altaMedicamento(){
     else{
      printf("error al guardar el medicamento \n");
     }
-   
+}
    else{
     printf("medicamento ya existe \n");
    }
   destroyObj(medicamento);
 }
     
-    
+medicamentoExiste(char *descripcion){
+   int size,i;
+  void *list,*itm;
+  obj_Medicamento *medicamento;
+  medicamento = Medicamento_new();
+  
+  size = medicamento->findAll(medicamento,&list,NULL);
+  
+  for(i=0;i<size;++i)
+  {
+    itm = ((Object **)list)[i];    
+    medicamento=((obj_Medicamento *)itm);
+    if(medicamento->getDescripcion == descripcion){
+    	return 1;
+    }else
+    	return 0;
+  }
+  
+  destroyObjList(list,size);
+  destroyObj(medicamento);
 
+}
 //--------------------Listar----------------------------------------- 
-void listarTurnos(){
+void listarMedicamentos(){
 int size,i;
   void *list,*itm;
-  obj_Mascota *mascota;
-  mascota = Mascota_new();
+  obj_Medicamento *medicamento;
+  medicamento = Medicamento_new();
   
-  size = mascota->findAll(mascota,&list,NULL);
+  size = medicamento->findAll(medicamento,&list,NULL);
   
   for(i=0;i<size;++i)
   {
@@ -185,7 +197,7 @@ int size,i;
   }
   
   destroyObjList(list,size);
-  destroyObj(mascota);
+  destroyObj(medicamento);
   
 }
 

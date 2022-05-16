@@ -452,36 +452,7 @@ int validarvalidarMascota(){
     
 	}
 
-//----------------------------------------------------------
-void obtenerConsulta(int dni, int codigo){
-	
-	obj_Consulta *consulta;
-	consulta = Consulta_new();
-	
-	char criterio[MAX_SQL];
 
-	void *list, *itm;
-	int i, aux=0;
-	int diagnostico = 0;
-	
-	CLEAR(criterio,MAX_SQL);
-	int size = sprintf(criterio, "nro_dni_cliente=%d and cod_mascota=%d and asistio=TRUE",dni, codigo);
-	size = consulta->findAll(consulta,&list,criterio);
-
-	printf("\n");
-	
-	for(i=0; i<size; ++i){
-		consulta = ((obj_Consulta **)list)[i];
-		
-		diagnostico = consulta->getAsistio(consulta);
-			
-		if (diagnostico)
-			++aux;
-	}
-	++aux;
-	
-	return aux;	
-}
 //------------------------------------------------------------
 
 

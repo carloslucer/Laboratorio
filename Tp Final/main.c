@@ -50,7 +50,7 @@ void ingresarCadena(char *texto, char *cadena){
 	}while(bandera == 0);
 }
 
-/*
+
 void ingresarFecha(char *pregunta, char *cadena){
 	char fecha[MAXFECHA];
 	int bandera;
@@ -65,7 +65,7 @@ void ingresarFecha(char *pregunta, char *cadena){
 		}
 	}while(bandera == 0);			
 }
-*/
+
 
 
 bool continuar (char *pregunta)
