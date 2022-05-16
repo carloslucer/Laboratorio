@@ -71,17 +71,7 @@ obj_Tratamiento *getTratamientoMascotaMedicamentoObj_Impl(void *self)
 	return NULL;
 }
 //----------------------------------------------------
-obj_Medicamento *getMedicamentoMascotaMedicamentoObj_Impl(void *self)
-{
-	/// implementado
-	obj_Medicamento *obj = this(self);
-    obj->especie = Especie_new();
 
-    if(obj->especie->findbykey(obj->especie, obj->getCodEspecie(obj))!= NOT_FOUND)
-    	return obj->especie;
-	
-	return NULL;
-}
 //----------------------------------------------------
 //implementacion constructor
 //----------------------------------------------------
@@ -111,7 +101,6 @@ static void *init_MascotaMedicamento(void *self)
   obj->destroyInternal        = destroyInternalMascotaMedicamento_Impl;
   //---- acceso a relaciones    
   obj->getTratamientoObj	  = getTratamientoMascotaMedicamentoObj_Impl;
-  obj->getMedicamentoObj	  = getMedicamentoMascotaMedicamentoObj_Impl;
   return obj;
 }
 //----------------------------------------------------
@@ -121,15 +110,15 @@ obj_MascotaMedicamento *MascotaMedicamento_new()
   return (obj_MascotaMedicamento *)init_obj(sizeof(obj_MascotaMedicamento), init_MascotaMedicamento);
 }
 
-//---------------------Altas--------------------------------
-void altaMascotaMedicamento(){
+//---------------------Alta----------------------------------------------------
+altaMascotaMedicamento(){
 	int idMascotaMedicamento, codMedicamento, codTratamiento;
 	double cantidad;
 	
 	obj_Medicamento *medicamento;
 	medicamento = Medicamento_new();
     obj_Tratamiento *tratamiento;
-	tratamiento = tratamiento_new();
+	tratamiento = Tratamiento_new();
 	
 		printf("ALTA MASCOTA-MEDICAMENTO \n");
 		
@@ -149,7 +138,6 @@ void altaMascotaMedicamento(){
   		printf("Ingrese la cantidad : \n");
     	scanf("%lf", &cantidad);
     	fflush(stdin);
-    	return 0;
     	
     	if(medicamento->saveObj(medicamento)){ 
     	printf("medicamento guardado correctamente \n");
@@ -169,11 +157,8 @@ void altaMascotaMedicamento(){
   			destroyObj(tratamiento);  
 }
 
-
-
-
-//----------------------Listar------------------------------
-void listarMedicamentosMascota(){
+//----------------------Listado------------------------------
+listarMedicamentosMascota(){
 	int size,i;
   void *list,*itm;
   obj_Medicamento *medicamento;

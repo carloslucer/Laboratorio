@@ -115,9 +115,9 @@ obj_Medicamento *Medicamento_new()
 {
   return (obj_Medicamento *)init_obj(sizeof(obj_Medicamento), init_Medicamento);
 }
-//--------------------Altas--------------------------------
-//altaMedicamento
-void altaMedicamento(){
+//--------------------Alta------------------------------------------------------
+
+altaMedicamento(){
 	int codEspecie, cantidad;
 	char descripcion[MAXDESCRIPCION];
 	double importe;	
@@ -168,19 +168,15 @@ medicamentoExiste(char *descripcion){
   {
     itm = ((Object **)list)[i];    
     medicamento=((obj_Medicamento *)itm);
-    if(medicamento->getDescripcion == descripcion){
-    	return 1;
-    }else
-    	return 0;
-  }
+    strcmp(medicamento->getDescripcion(medicamento) == 0);
   
   destroyObjList(list,size);
   destroyObj(medicamento);
-
+  }
 }
-//--------------------Listar----------------------------------------- 
-void listarMedicamentos(){
-int size,i;
+//--------------------Listado----------------------------------------- 
+listarMedicamentos(){
+  int size,i;
   void *list,*itm;
   obj_Medicamento *medicamento;
   medicamento = Medicamento_new();

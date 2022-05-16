@@ -31,22 +31,22 @@ THIS(obj_Consulta)// crea definicion de funcion this para este modulo. .. Macro 
 static void toString_ConsultaImpl(void *self)
 {
 	int codigo;
-     obj_Consulta *obj=this(self);
+     obj_Consulta *obj = this(self);
      printf("objConsulta\n");
-     codigo=obj->diagnostico->getId;
+     codigo=obj->diagnostico->getId(obj->diagnostico);
      
      obj_Diagnostico *diagnostico;
-     diagnostico = diagnostico_new();
+     diagnostico = Diagnostico_new();
      
      obj_Mascota *mascota;
-     mascota = mascota_new();
+     mascota = Mascota_new();
           
-     if(findbykey(obj->diagnostico, obj->getCodDiagnostico(obj))!= NOT_FOUND)
+     if(diagnostico->findbykey(diagnostico, obj->getCodDiagnostico(obj))!= NOT_FOUND)
      diagnostico->toString;
      
-     codigo=obj->mascota->getCodigo;
+     codigo=obj->mascota->getCodigo(obj->mascota);
      
-     if(findbykey(obj->mascota, obj->getCodMascota(obj))!= NOT_FOUND)
+     if(mascota->findbykey(mascota, obj->getCodMascota(obj))!= NOT_FOUND)
      diagnostico->toString;
      
     //implementado
@@ -215,7 +215,126 @@ obj_Consulta *Consulta_new()
   return (obj_Consulta *)init_obj(sizeof(obj_Consulta), init_Consulta);
 }
 
+//----------------------Validaciones--------------------------------------
 
+int consultaExiste(char *fecha,char *hora){
+    int consultaExiste=0;
+    int size,i;
+	void *list,*itm;
+	obj_Consulta *consulta;
+	consulta = Consulta_new();
+
+	size = consulta->findAll(consulta,&list,NULL);
+
+	for(i=0; i<size; ++i)
+    {
+		consulta = ((obj_Consulta**)list)[i];
+		char* fechaDb = consulta->getFecha(consulta);
+		char* horaDb =  consulta->getHora(consulta);
+		if ( !strcmp(fechaDb,fecha) && !strcmp(fechaDb, hora))
+		{
+			consultaExiste=1;
+		}
+	
+    }
+	    
+	destroyObjList(list,size);
+	destroyObj(consulta);
+	return consultaExiste;
+
+}
+
+validarFecha(char* fecha)
+{
+	
+	int esfechaValida =0;
+	printf("ingrese fecha de la consulta: formato  yyyy-mm-dd \n");
+	do
+	{   
+	    fflush(stdin);
+		fgets(fecha,MAXFECHA-1,stdin);
+		if ((strlen(fecha)-1) == 10) {
+		      	char auxFecha[MAXFECHA];
+				strcpy(auxFecha,fecha);
+				char *anio;   
+			    char *mes;      
+			    char *dia;
+			    
+			    anio=strtok(auxFecha,"-");
+			    mes=strtok(NULL,"-");
+			    dia=strtok(NULL,"-");
+			    
+			    //validamos que sea una fecha 
+		    	if(fecha[4] =='-' && fecha[7] =='-' && atoi(anio) >= 2022 && atoi(mes) <= 12 && atoi(mes) !=0 && atoi(dia)<=30  && atoi(dia) !=0)	
+				{   char fechaActual[MAXFECHA];
+	
+				    strcpy(fechaActual,getFecha()); //fecha actual
+	
+			    	if(esFechaMayor(fechaActual,fecha)) //validamos que la fecha actual sea mayor o igual a la actual
+					{
+			    	   esfechaValida=1;
+					}else printf("ingrese un fecha valida sdf");
+			   
+			   	}else printf("ingrese un fecha valida3:\n");
+			   	
+		}else printf("ingrese un fecha valida \n");
+    }
+    while(!esfechaValida);   
+    
+}
+
+validarHora(char* hora){
+
+    int esHoraValida =0;
+    
+	printf("ingrese Hora de la consulta: formato HH:mm:ss \n");
+	do
+	{ 	
+	    fflush(stdin);
+	    fgets(hora,MAXFECHA-1,stdin);
+		if ((strlen(hora)-1) == 8) 
+	    {
+		      	char auxHora[MAXFECHA];
+				strcpy(auxHora,hora);	
+				char *hora;   
+			    char *min;      
+			    char *seg;
+			    
+			    hora=strtok(auxHora,"-");
+			    min=strtok(NULL,"-");
+			    seg=strtok(NULL,"-");
+			    
+			    //validamos que sea una fecha 
+		    	if(hora[2] ==':' && hora[5] ==':' && atoi(hora) < 24  && atoi(hora) > 0 && atoi(min)<60  && atoi(min) >=0  &&  atoi(seg) <60 && atoi(seg)>=0  )
+				{   
+			    	   esHoraValida=1;
+				
+				}else printf("ingrese un hora valida \n");
+			   
+	
+			   	
+		}else printf("ingrese un fecha valida \n");
+    }
+    while(!esHoraValida);   	
+}
+
+int validarvalidarMascota(){
+   int valido=0;
+   int codigo;	  
+   obj_Mascota *mascota;
+   mascota = Mascota_new();
+  printf("ingrese codigo: \n");
+  while(!valido){
+  scanf("%d", &codigo);
+  fflush(stdin);
+  if(mascota->findbykey(mascota,codigo) == NOT_FOUND){
+      printf("codigo no encontrado, ingrese un codigo cargado en sistema \n");
+  } else {
+  	   return codigo;
+  	}
+    
+	}
+}
 //-----------------------------Alta------------------------------------------------------
 void altaConsulta(){
 char  fecha[MAXFECHA],  hora[MAXFECHA];
@@ -301,8 +420,8 @@ char  fecha[MAXFECHA],  hora[MAXFECHA];
 			destroyObj(mascota);
 }
     
-//-------------------listar---------------------------------
-void listarConsultas(){
+//-------------------listado---------------------------------
+listarConsultas(){
 	int size,i;
   void *list,*itm;
   obj_Consulta *consulta;
@@ -323,7 +442,7 @@ void listarConsultas(){
   destroyObj(consulta);
   
 }
-
+//-------------------------Fechas--------------------------------------------
 t_fecha convertirFecha(char* fecha){
    
 	char fechaAux[MAXFECHA];
@@ -358,131 +477,7 @@ int esFechaMayor(char *fecha1 ,char *fecha2){  //devuelve 1 si la fecha2 es mayo
    
    
 }
-
-validarFecha(char* fecha)
-{
-	
-	int esfechaValida =0;
-	printf("ingrese fecha de la consulta: formato  yyyy-mm-dd \n");
-	do
-	{   
-	    fflush(stdin);
-		fgets(fecha,MAXFECHA-1,stdin);
-		if ((strlen(fecha)-1) == 10) {
-		      	char auxFecha[MAXFECHA];
-				strcpy(auxFecha,fecha);
-				char *anio;   
-			    char *mes;      
-			    char *dia;
-			    
-			    anio=strtok(auxFecha,"-");
-			    mes=strtok(NULL,"-");
-			    dia=strtok(NULL,"-");
-			    
-			    //validamos que sea una fecha 
-		    	if(fecha[4] =='-' && fecha[7] =='-' && atoi(anio) >= 2022 && atoi(mes) <= 12 && atoi(mes) !=0 && atoi(dia)<=30  && atoi(dia) !=0)	
-				{   char fechaActual[MAXFECHA];
-	
-				    strcpy(fechaActual,getFecha()); //fecha actual
-	
-			    	if(esFechaMayor(fechaActual,fecha)) //validamos que la fecha actual sea mayor o igual a la actual
-					{
-			    	   esfechaValida=1;
-					}else printf("ingrese un fecha valida sdf");
-			   
-			   	}else printf("ingrese un fecha valida3:\n");
-			   	
-		}else printf("ingrese un fecha valida \n");
-    }
-    while(!esfechaValida);   
-    
-}
-
-validarHora(char* hora){
-
-    int esHoraValida =0;
-    
-	printf("ingrese Hora de la consulta: formato HH:mm:ss \n");
-	do
-	{ 	
-	    fflush(stdin);
-	    fgets(hora,MAXFECHA-1,stdin);
-		if ((strlen(hora)-1) == 8) 
-	    {
-		      	char auxHora[MAXFECHA];
-				strcpy(auxHora,hora);	
-				char *hora;   
-			    char *min;      
-			    char *seg;
-			    
-			    hora=strtok(auxHora,"-");
-			    min=strtok(NULL,"-");
-			    seg=strtok(NULL,"-");
-			    
-			    //validamos que sea una fecha 
-		    	if(hora[2] ==':' && hora[5] ==':' && atoi(hora) < 24  && atoi(hora) > 0 && atoi(min)<60  && atoi(min) >=0  &&  atoi(seg) <60 && atoi(seg)>=0  )
-				{   
-			    	   esHoraValida=1;
-				
-				}else printf("ingrese un hora valida \n");
-			   
-	
-			   	
-		}else printf("ingrese un fecha valida \n");
-    }
-    while(!esHoraValida);   
-	
-	
-	
-}
-int validarvalidarMascota(){
-   int valido=0;
-   int codigo;	  
-   obj_Mascota *mascota;
-   mascota = Mascota_new();
-  printf("ingrese codigo: \n");
-  while(!valido){
-  scanf("%d", &codigo);
-  fflush(stdin);
-  if(mascota->findbykey(mascota,codigo) == NOT_FOUND){
-      printf("codigo no encontrado, ingrese un codigo cargado en sistema \n");
-  } else {
-  	   return codigo;
-  	}
-    
-	}
-
-
-//------------------------------------------------------------
-
-
-int consultaExiste(char *fecha,char *hora){
-    int consultaExiste=0;
-    int size,i;
-	void *list,*itm;
-	obj_Consulta *consulta;
-	consulta = Consulta_new();
-
-	size = consulta->findAll(consulta,&list,NULL);
-
-	for(i=0; i<size; ++i)
-    {
-		consulta = ((obj_Consulta**)list)[i];
-		char* fechaDb = consulta->getFecha(consulta);
-		char* horaDb =  consulta->getHora(consulta);
-		if ( !strcmp(fechaDb,fecha) && !strcmp(fechaDb, hora))
-		{
-			consultaExiste=1;
-		}
-	
-    }
-	    
-	destroyObjList(list,size);
-	destroyObj(consulta);
-	return consultaExiste;
-
-}
-
+//-----------------Verificaciones---------------------
  int verificarConsultasPrevias(int dni, int codigo){
 	
 	obj_Consulta *consulta;
@@ -512,91 +507,6 @@ int consultaExiste(char *fecha,char *hora){
 	}
 }
 
-//------------ALTAS------------------------
 
-void altaConsulta()
-{
-	char  fecha[MAXFECHA],  hora[MAXFECHA];
-	int idConsulta, dni,codMascota;
-	obj_Consulta *consulta;
-	consulta = Consulta_new();
-
-	printf("ALTA CONSULTA \n");
-	int turnoDisponible=0;
-	do{
-		char fecha[MAXFECHA];
-		char hora[MAXFECHA];
-	    validarFecha(fecha);
-	    validarHora(hora);
-		if (consultaExiste(fecha,hora)){
-			printf("ya existe una consulta para esa fecha y hora desea ingresar nuevamente los datos si / no");
-	        char resp[3];
-		    fgets(resp,sizeof(resp)-1,stdin);
-		    if(resp == "no")
-			{
-				exit;
-			}
-        }else{
-            turnoDisponible=1;
-		}
-			
-	}
-    while(!turnoDisponible);
-    
-   	consulta->setFecha(consulta,fecha);
-	consulta->setHora(consulta,hora);
-    
-    obj_Profesional *profesional;
-	profesional = Profesional_new();
-
-	printf("ingrese dni del profesional que atendera la consulta: \n");
-	scanf("%d", &dni);
-	fflush(stdin);
-
-	if(profesional->findbykey(profesional,dni) == NOT_FOUND)
-	 {
-	    printf("profesional no exite desea ingresarlo? 1:si | 2:no /n ");
-	    int resp;
-	    fflush(stdin);
-	    scanf("%d",resp);
-	    if(resp == 1)
-		{
-	     altaProfesional();
-		}
-		else{
-			   exit;
-		     }
-      }
-      consulta->setDocProfesional(consulta,dni);
-        
-		obj_Mascota *mascota;
-		mascota = Mascota_new();	
-		
-	    printf("ingrese el codigo de la mascota");
-		scanf("%d", &codMascota);
-		
-	 if(mascota->findbykey(mascota,codMascota) == NOT_FOUND)
-	 {
-	    printf("la mascota no existe desea darla de alta? 1:si | 2:no \n");
-	    int resp;
-	    fflush(stdin);
-	    scanf("%d",resp);
-	    if(resp == 1)
-		{
-	     altaMascota();
-		}
-		else{
-			   exit;
-		     }
-      }
-      consulta->setCodMascota(consulta,codMascota);
-	
-	fflush(stdin);
-	destroyObj(consulta);
-		destroyObj(profesional);
-			destroyObj(mascota);		
-	
-	}
-}
 
 

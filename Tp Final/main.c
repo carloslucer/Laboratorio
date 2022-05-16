@@ -25,6 +25,74 @@ int verificarCadena (char *cadena)
 	return 1;
 }
 
+void particionarFecha(char *fecha, int *date){
+
+	int i = 0;
+	
+    char *palabra = strtok(fecha, "-");
+        
+    while(palabra != NULL) {		
+		
+		date[i] = atoi(palabra);
+        palabra = strtok(NULL, "-");
+        ++i;
+    }
+}
+
+bool verificarFecha(char* fecha){
+	
+    int date[2];  
+	
+	char fechaAux[MAXFECHA];
+
+	strcpy(fechaAux,fecha);
+
+	if ((fechaAux[4] == '-') && (fechaAux[7] == '-') && (fechaAux[9] >=0)){
+    
+	    particionarFecha(fecha, date); 
+	    
+	    if ((date[2]>0) && (date[2]<=31)){
+	    	
+			if (date[1] >= 1 && date[1] <= 12 ){
+		        switch (date[1] ){
+					case  1 :
+		            case  3 :
+		            case  5 :
+		            case  7 :
+		            case  8 :
+		            case 10 :
+					case 12 :
+						if ( date[2] < 1 && date[2] > 31 )
+		                	return 0;
+		                break;
+		            case  4 :
+		            case  6 :
+		            case  9 :				
+					case 11 :
+						if ( date[2] < 1 && date[2] > 30 )
+		            		return 0;
+		               	break;				
+					
+					case  2 :
+						if( date[0] % 4 != 0 && date[0] % 100 == 0 || date[0] % 400 != 0 )
+		                	if ( date[2] < 1 && date[2] > 29 )
+								return 0;
+		                else
+		                    if ( date[2] < 1 && date[2] > 28 )
+		                    	return 0;
+		                
+		               	break;
+		        }
+		    }else 
+				return 0;
+	    }else
+	    	return 0;
+	}else
+		return 0;
+			    
+    return 1; 
+}
+
 
 void ingresarNumero(char *pregunta, char *cadena){
 	int bandera=0;
@@ -178,8 +246,6 @@ void menuActulizaciones(){
        }    
 }
   
-
-
 void menulistados(){
   
     int opcion = 0;
@@ -203,7 +269,7 @@ void menulistados(){
           case 1: listarClientes();
           case 2: listarMascotas();
           case 3: listarProfesionales();
-          case 4: listarTurnos();
+          case 4: listarConsultas();
           case 5: listarTratamientosMascota();
           case 6: listarMedicamentosMascota();
           break;  

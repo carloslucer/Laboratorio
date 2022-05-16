@@ -129,16 +129,16 @@ obj_MascotaTratamiento *MascotaTratamiento_new()
 {
   return (obj_MascotaTratamiento *)init_obj(sizeof(obj_MascotaTratamiento), init_MascotaTratamiento);
 }
-//-------------Altas---------------------------------------
+//-------------Alta-----------------------------------------------------------------------------
 
-void altaMascotaTratamiento(){
+altaMascotaTratamiento(){
 	int codConsulta, codTratamiento;
 	char fechaDesde[MAXFECHA], fechaHasta[MAXFECHA];
 	
 	obj_Consulta *consulta;
 	consulta = Consulta_new();
     obj_Tratamiento *tratamiento;
-	tratamiento = tratamiento_new();
+	tratamiento = Tratamiento_new();
 	
 		printf("ALTA MASCOTA-TRATAMIENTO \n");
 		
@@ -180,6 +180,4 @@ void altaMascotaTratamiento(){
   		destroyObj(consulta);
   		destroyObj(tratamiento); 
 }
-
-//------------------Listar--------------------------------
 

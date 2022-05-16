@@ -9,8 +9,6 @@
 #define MAX_OBSERVACION 250
 #define MAXNOMBRE 80
 
-
-
 char cadena[MAX_CARACTERES];
 int codigo;
 int bandera;
@@ -18,13 +16,14 @@ int bandera;
 bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 
+//---------------------Ordenamiento------------------------------------------
 int compara_CodigoDescM(const void *l1, const void * l2){
     obj_Mascota *masc1 =  *((obj_Mascota **)l1);
     obj_Mascota *masc2 =  *((obj_Mascota **)l2);
     
     return (masc1->getCodigo(masc1) - masc2->getCodigo(masc2))*-1;
 }
-//--------------------------------------------------------------------------
+
 int compara_CodigoAscM(const void *l1, const void * l2)
 {
     obj_Mascota *masc1 =  *((obj_Mascota **)l1);
@@ -34,7 +33,6 @@ int compara_CodigoAscM(const void *l1, const void * l2)
 }
 //--------------------------------------------------------------------------
 
-
 char cadena[MAX_CARACTERES];
 int codigo;
 int bandera;
@@ -42,8 +40,6 @@ int bandera;
 bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 //-------------------------------------------------------------------------
-
-
 
 THIS(obj_Mascota)// crea definicion de funcion this para este modulo. .. Macro en config.h
 //----------------------------------------------------
@@ -167,8 +163,7 @@ obj_Mascota *Mascota_new()
   return (obj_Mascota *)init_obj(sizeof(obj_Mascota), init_Mascota);
 }
 
-//----------------------LISTAR------------------------------
-//listar Mascotas
+//----------------------Listado------------------------------
 listarMascotas(char* archivo, bool descendente){
 	
 	printf("\n\t\t\t\tMASCOTAS\n");
@@ -224,7 +219,6 @@ listarMascotas(char* archivo, bool descendente){
 	destroyObj(mascota);	
 }
 
-
 //------------------Actualizacion---------------------
 actualizarMascota()
 {
@@ -247,11 +241,8 @@ actualizarMascota()
  		}
  	}while(1);
 }
-/*
-validarFecha(*char fecha){
 
-}*/
-
+//------------------------Alta------------------------------
 altaMascota(){
 	
 	   char nombre[MAXNOMBRE]; char fechaNac[MAXFECHA]; int codEspecie; int dni; int vacunado; char observacion[MAX_OBSERVACION];

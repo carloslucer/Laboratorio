@@ -196,8 +196,8 @@ altaProfesional(){
   
 }
 
-//--------------Listar-----------------------------------------
-void listarProfesionales(){
+//--------------Listado-----------------------------------------
+listarProfesionales(){
 	int size,i;
   void *list,*itm;
   obj_Profesional *profesional;

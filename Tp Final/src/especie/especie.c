@@ -66,55 +66,8 @@ obj_Especie *Especie_new()
 {
   return (obj_Especie *)init_obj(sizeof(obj_Especie), init_Especie);
 }
-//------------------ALTA----------------------------------
-void altaEspecie(){
-	char nombre[MAXNOMBRE];
-	int idEspecie;
-	 obj_Especie *especie;
-  	especie = Especie_new();
-  
-  printf("ALTA ESPECIE \n");
-  printf("Ingrese nombre de la especie: \n");
-   fgets(nombre,MAXNOMBRE-1,stdin);
 
-	if(existeEspecie(nombre)){
-  	printf("La especie ya existe\n");
-  	exit(1);
-  }
-    especie->setNombre(especie,nombre);
-    
-    
-  if(especie->saveObj(especie)){ 
-    printf("especie guardado correctamente \n");
-      }
-    else{
-     printf("error al guardar la especie \n");
-    }
-   
-   destroy(especie);
-}
-//---------------Listado-----------------------
-void listarEspecie(){
-	  int size,i;
-	  void *list,*itm;
-	  obj_Especie *especie;
-	  especie = Especie_new();
-  
-      size = especie->findAll(especie,&list,NULL);
-  
-	  for(i=0;i<size;++i)
-	  {
-	    itm = ((Object **)list)[i];    
-	    ((Object *)itm)->toString(itm);
-	    printf("\n");
-	    fflush(stdin);
-	
-	  }
-	  
-  destroyObjList(list,size);
-  destroyObj(especie);
-  
-}
+//------------------Validaciones--------------------------
 
 int validarEspecie(){
 	obj_Especie *especie;
@@ -136,4 +89,55 @@ int validarEspecie(){
     destroyObj(especie);
     return codEspecie; 	
 }
+//------------------Alta----------------------------------
+altaEspecie(){
+	char nombre[MAXNOMBRE];
+	int idEspecie;
+	 obj_Especie *especie;
+  	especie = Especie_new();
+  
+  printf("ALTA ESPECIE \n");
+  printf("Ingrese nombre de la especie: \n");
+   fgets(nombre,MAXNOMBRE-1,stdin);
+
+	if(validarEspecie(nombre)){
+  	printf("La especie ya existe\n");
+  	exit(1);
+  }
+    especie->setNombre(especie,nombre);
+    
+    
+  if(especie->saveObj(especie)){ 
+    printf("especie guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar la especie \n");
+    }
+   
+   destroyObj(especie);
+}
+//---------------Listado-----------------------
+listarEspecie(){
+	  int size,i;
+	  void *list,*itm;
+	  obj_Especie *especie;
+	  especie = Especie_new();
+  
+      size = especie->findAll(especie,&list,NULL);
+  
+	  for(i=0;i<size;++i)
+	  {
+	    itm = ((Object **)list)[i];    
+	    ((Object *)itm)->toString(itm);
+	    printf("\n");
+	    fflush(stdin);
+	
+	  }
+	  
+  destroyObjList(list,size);
+  destroyObj(especie);
+  
+}
+
+
   

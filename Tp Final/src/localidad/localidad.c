@@ -66,8 +66,8 @@ obj_Localidad *Localidad_new()
 {
   return (obj_Localidad *)init_obj(sizeof(obj_Localidad), init_Localidad);
 }
-//----------------------------------------------------
-//-----------------VALIDAR--------------------------------------
+
+//-----------------Validaciones--------------------------------------
 
 int validarCodigoPostal(){
     int codPostal;
@@ -85,7 +85,7 @@ int validarCodigoPostal(){
 destroyObj(localidad);
 return codPostal;
 }
-//-------------ALTA---------------
+//-------------Alta-------------------------------
 altaLocalidad(){
 	int idcodigoPostal;
 	char nombre[MAXNOMBRELOCALIDAD];
@@ -93,7 +93,7 @@ altaLocalidad(){
     localidad = Localidad_new();
 
 	printf("ALTA LOCALIDAD \n");
-	validadCodigoPostal(idcodigoPostal);
+	validarCodigoPostal(idcodigoPostal);
 	system("PAUSE");
 	
   printf("ingrese nombre de la localidad: \n");
@@ -102,7 +102,7 @@ altaLocalidad(){
   
   if(!localidad->saveObj(localidad))
 {
-	printf("Ocurrio un error al agregar la Localidad:\n%s\n",getsLastError());
+	printf("Ocurrio un error al agregar la Localidad:\n%s\n");
 }
 destroyObj(localidad);
 

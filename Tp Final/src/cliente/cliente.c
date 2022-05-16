@@ -11,14 +11,14 @@ int bandera;
 bool confirmar;	//permitira controlar si el usuario quiere reintentar operacion
 bool registrar; //permitira controlar si el usuario quiere seguir registrando
 
-//--------------Ordenamientos----------------------------
+//--------------Ordenamiento----------------------------
 int compara_CodigoDesc(const void *l1, const void * l2){
     obj_Cliente *clie1 =  *((obj_Cliente **)l1);
     obj_Cliente *clie2 =  *((obj_Cliente **)l2);
     
     return (clie1->getDni(clie1) - clie2->getDni(clie2))*-1;
 }
-//--------------------------------------------------------------------------
+
 int compara_CodigoAsc(const void *l1, const void * l2)
 {
     obj_Cliente *clie1 =  *((obj_Cliente **)l1);
@@ -155,9 +155,9 @@ obj_Cliente *Cliente_new()
   return (obj_Cliente *)init_obj(sizeof(obj_Cliente), init_Cliente);
 }
 
-//-----------------LISTAR---------------------------------------
-//listar clientes
-void listarClientes(char* archivo, bool descendente){
+//-----------------Listado---------------------------------------
+
+listarClientes(char* archivo, bool descendente){
 	
 	printf("\n\t\t\t\tCLIENTES\n");
 	
@@ -203,84 +203,6 @@ void listarClientes(char* archivo, bool descendente){
 	destroyObjList(list,size); 
 	destroyObj(cliente);
 }
-			
-//-------------------ALTAS---------------------------------------------
-void altaCliente(){
-  
-  obj_Cliente *cliente;
-  cliente = Cliente_new();
-  
-  printf("USTED ESTA REGISTRANDO UN CLIENTE\n\n");
-  
-  ingresarNumero("Ingrese el numero de documento:\t\t",&cadena);
-  codigo = atoi(cadena);
-  cliente->setDni(cliente,codigo); //seteamos el id
-  
-  ingresarCadena("Ingrese el/los apellido/s del cliente:\t", &cadena);
-  cliente->setApellido(cliente,cadena);
-  
-  ingresarCadena("Ingrese el/los nombres del cliente:\t", &cadena);
-  cliente->setApellido(cliente,cadena);
-  
-  ingreseCadena("Ingrese el domicilio del cliente:\t",&cadena);
-  cliente->setDomicilio(cliente,cadena);
-  
-  obj_Localidad *localidad;
-  localidad = Localidad_new();
-  
-  listarLocalidades(NULL,false);
-  
-  do{
-  		confirmar = false;
-  		
-  		ingresarNumero("Ingrese codigo postal del cliente:\t\t",&cadena);
-  		codigo = atoi(cadena);
-  		
-  		if(localidad->findbykey(localidad,codigo) != NOT_FOUND)
-  		{
-  			cliente->setCodPostal(cliente,codigo);
-  			
-  			ingresarNumero("Ingrese el numero de telefono:\t\t",&cadena);
-  			cliente->setTelefono(cliente,cadena);
-		  
-			ingresarCadena("Ingrese observaciones:\t",&cadena);
-			cliente->setObservaciones(cliente,cadena);
-		
-			if(!cliente->saveObj(cliente))
-				printf("\nOcurrio un error al agregar un cliente: \n%s\n",getLasrError());
-			else
-				printf("\nCLIENTE CREADO\n");
-			system("pause");
-  		}else{
-  			printf("\nERROR: no se pudo encontrar la localidad ingresada\n\n");
-  			confirmar = continuar(MSJ_REINTENTAR);
-		}
-	}while(confirmar);
-     
-     destroyObj(cliente);
-     destroyObj(localidad);	
-}
-//-------------validarLocalidad----------------------
-
-int obtenerCodLocalidad(int dni){
-	
-	obj_Cliente *clie;
-	clie = Cliente_new();
-	
-	char criterio[MAX_SQL];
-	void *list;
-	int i,size=0;
-	
-	//Listamos por el numero de documento
-	sprintf(criterio, "nro_documento=%d",dni);
-	size = clie->findAll(clie,&list,criterio);
-	
-	clie = ((obj_Cliente **)list)[size-1];
-	return clie->getCodPostal(clie);
-}
-
-
-//-------------ListadoDeClientesPorLocalidad------------
 
 listarClientePorLocalidad(char* archivo, bool descendente){
 	
@@ -325,9 +247,96 @@ listarClientePorLocalidad(char* archivo, bool descendente){
 		printf("\nListado de clientes exportado\n\n");
 	}
 }
-//-------------------ActualizarCliente---------------------------------
+			
+//-------------------Alta---------------------------------------------
+altaCliente(){
+  int dni, codPostal;
+    char nombre[MAXNOMBRE], apellido[MAXAPELLIDO], domicilio[MAXDOMICILIO], observacion[MAXOBSERVACION], telefono[MAXTELEFONO];
+  obj_Cliente *cliente;
+    cliente = Cliente_new();
+    
+  printf("ALTA CLIENTE \n");
+  printf("ingrese dni: \n");
+  scanf("%d", &dni);
+  fflush(stdin);
+  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
+    cliente->setDni(cliente,dni);
+     
+    printf("ingrese nombre: \n");
+    fgets(nombre,MAXNOMBRE-1,stdin);
+    cliente->setNombres(cliente,nombre);
+    
+    printf("ingrese apellido: \n");
+    fgets(apellido,MAXAPELLIDO-1,stdin);
+    cliente->setApellido(cliente,apellido);
+    
+    printf("ingrese donicilio \n");
+    fgets(domicilio,MAXDOMICILIO-1,stdin);
+    cliente->setDomicilio(cliente,domicilio);
 
-void actualizarCliente()
+    printf("ingrese telefono: \n");
+    fgets(telefono,MAXTELEFONO-1,stdin);
+    cliente->setTelefono(cliente,telefono);
+      
+    codPostal = validarCodigoPostal();
+    cliente->setCodPostal(cliente,codPostal);   
+    
+      printf("ingrese observaciones: \n");
+    fgets(observacion,MAXOBSERVACION-1,stdin);
+    cliente->setObservaciones(cliente,observacion);
+    
+    if(cliente->saveObj(cliente)){ 
+    printf("cliente guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar cliente \n");
+    }
+   }
+   else{
+    printf("cliente ya existe \n");
+   }
+  destroyObj(cliente);
+}
+//-------------validaciones----------------------
+
+int obtenerCodLocalidad(int dni){
+	
+	obj_Cliente *clie;
+	clie = Cliente_new();
+	
+	char criterio[MAX_SQL];
+	void *list;
+	int i,size=0;
+	
+	//Listamos por el numero de documento
+	sprintf(criterio, "nro_documento=%d",dni);
+	size = clie->findAll(clie,&list,criterio);
+	
+	clie = ((obj_Cliente **)list)[size-1];
+	return clie->getCodPostal(clie);
+}
+
+int validarDniCliente(){
+   int valido=0;
+   int dni;	  
+   obj_Cliente *cliente;
+   cliente = Cliente_new();
+  printf("ingrese dni del cliente: \n");
+  while(!valido){
+  scanf("%d", &dni);
+  fflush(stdin);
+  if(cliente->findbykey(cliente,dni) == NOT_FOUND){
+      printf("dni no encontrado, ingrese un dni cargado en sistema \n");
+  } else {
+  	   return dni;
+  }
+    
+}
+}
+
+//-------------------Actualizacion---------------------------------
+
+actualizarCliente()
 {
 	int codigo;
 	obj_Cliente *cliente;
@@ -356,7 +365,7 @@ void actualizarCliente()
 			obj_Localidad *localidad;
 			localidad = Localidad_new();
 			
-			listarLocalidades(NULL,false);
+			listarClientePorLocalidad(NULL,false);
 			
 			bool reintentar;
 			

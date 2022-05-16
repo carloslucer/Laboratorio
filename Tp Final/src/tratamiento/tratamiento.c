@@ -92,7 +92,7 @@ obj_Tratamiento *Tratamiento_new()
   return (obj_Tratamiento *)init_obj(sizeof(obj_Tratamiento), init_Tratamiento);
 }
 
-//---------------------Altas--------------------------------
+//---------------------Alta--------------------------------
 void altaTratamiento(){
 	int  codEspecie;
 	char descripcion[MAXDESCRIPCION];
@@ -125,6 +125,7 @@ void altaTratamiento(){
   destroyObj(tratamiento);
 }
 
+//----------------------Validaciones--------------------
 tratamientoExiste(char *descripcion){
    int size,i;
   void *list,*itm;
@@ -137,10 +138,8 @@ tratamientoExiste(char *descripcion){
   {
     itm = ((Object **)list)[i];    
     tratamiento=((obj_Tratamiento *)itm);
-    if(tratamiento->getDescripcion == descripcion){
-    	return 1;
-    }else
-    	return 0;
+    strcmp(tratamiento->getDescripcion(tratamiento) == 0);
+    
   }
   
   destroyObjList(list,size);
@@ -148,8 +147,8 @@ tratamientoExiste(char *descripcion){
 
 }
 
-//--------------Listar--------------------------------------
-void listarTratamientosMascota(){
+//--------------Listado--------------------------------------
+listarTratamientosMascota(){
 	int size,i;
   void *list,*itm;
   obj_Tratamiento *tratamiento;
