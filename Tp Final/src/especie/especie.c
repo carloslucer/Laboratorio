@@ -83,38 +83,11 @@ int validarEspecie(){
 		{ 
             printf("codigo no existe \n");
 	 	}
-	 	else codEspecie = 1;
+	 	else especieValida = 1;
     }
 	while(!especieValida); 
     destroyObj(especie);
     return codEspecie; 	
-}
-//------------------Alta----------------------------------
-altaEspecie(){
-	char nombre[MAXNOMBRE];
-	int idEspecie;
-	 obj_Especie *especie;
-  	especie = Especie_new();
-  
-  printf("ALTA ESPECIE \n");
-  printf("Ingrese nombre de la especie: \n");
-   fgets(nombre,MAXNOMBRE-1,stdin);
-
-	if(validarEspecie(nombre)){
-  	printf("La especie ya existe\n");
-  	exit(1);
-  }
-    especie->setNombre(especie,nombre);
-    
-    
-  if(especie->saveObj(especie)){ 
-    printf("especie guardado correctamente \n");
-      }
-    else{
-     printf("error al guardar la especie \n");
-    }
-   
-   destroyObj(especie);
 }
 //---------------Listado-----------------------
 listarEspecie(){
@@ -138,6 +111,31 @@ listarEspecie(){
   destroyObj(especie);
   
 }
+//------------------Alta----------------------------------
+altaEspecie(){
+	char nombre[MAXNOMBRE];
+	int idEspecie;
+	 obj_Especie *especie;
+  	especie = Especie_new();
+  
+  printf("ALTA ESPECIE \n");
+  printf("Ingrese nombre de la especie: \n");
+   fflush(stdin);
+   fgets(nombre,MAXNOMBRE-1,stdin);
+
+    especie->setNombre(especie,nombre);
+    
+    
+  if(especie->saveObj(especie)){ 
+    printf("especie guardado correctamente \n");
+      }
+    else{
+     printf("error al guardar la especie \n");
+    }
+   
+   destroyObj(especie);
+}
+
 
 
   

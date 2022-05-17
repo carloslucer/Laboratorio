@@ -245,15 +245,14 @@ actualizarMascota()
 //------------------------Alta------------------------------
 altaMascota(){
 	
-	   char nombre[MAXNOMBRE]; char fechaNac[MAXFECHA]; int codEspecie; int dni; int vacunado; char observacion[MAX_OBSERVACION];
+	   char nombre[MAXNOMBRE]; char fechaNac[MAXFECHA]; int codEspecie; int dni; char observacion[MAX_OBSERVACION];
+	   char vacunado;
 	   obj_Mascota *mascota;
 	   mascota = Mascota_new();
-	   obj_Cliente *cliente;
-	   cliente = Cliente_new();
+	
 	
 		printf("ALTA MASCOTA \n");
 		printf("ingrese nombre de la mascota: \n");
-	    fflush(stdin);
 		fgets(nombre,MAXNOMBRE-1,stdin);
 	    mascota->setNombre(mascota,nombre);
 	
@@ -262,7 +261,7 @@ altaMascota(){
 	 	mascota->setFechaNac(mascota,fechaNac);
 	 	 
 	    dni = validarDniCliente();
-	    cliente->setDni(cliente,dni);
+	    mascota->setDniCliente(mascota,dni);
 		   
 	   
 	    codEspecie = validarEspecie();
@@ -287,7 +286,6 @@ altaMascota(){
 	         }
 
    		destroyObj(mascota);
-   		destroyObj(cliente);
 	}
 
 

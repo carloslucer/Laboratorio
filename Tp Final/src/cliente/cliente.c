@@ -270,7 +270,7 @@ altaCliente(){
     fgets(apellido,MAXAPELLIDO-1,stdin);
     cliente->setApellido(cliente,apellido);
     
-    printf("ingrese donicilio \n");
+    printf("ingrese domicilio \n");
     fgets(domicilio,MAXDOMICILIO-1,stdin);
     cliente->setDomicilio(cliente,domicilio);
 
@@ -323,8 +323,8 @@ int validarDniCliente(){
    cliente = Cliente_new();
   printf("ingrese dni del cliente: \n");
   while(!valido){
-  scanf("%d", &dni);
   fflush(stdin);
+  scanf("%d", &dni);
   if(cliente->findbykey(cliente,dni) == NOT_FOUND){
       printf("dni no encontrado, ingrese un dni cargado en sistema \n");
   } else {

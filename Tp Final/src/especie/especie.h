@@ -26,5 +26,5 @@
 	static Table table_Especie={"especie",CNT_COL_ESP,0, cols_Especie,NULL};
 	// generar PunteroGenerico para usar puntero funcion que obtenga pseudoObjeto Especie
 	typedef obj_Especie *(*getEspecieObjPtr)(void *self);
-	void listarEspecie();
+	
 #endif

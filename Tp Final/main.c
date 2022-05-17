@@ -39,7 +39,7 @@ void particionarFecha(char *fecha, int *date){
     }
 }
 
-bool verificarFecha(char* fecha){
+int verificarFecha(char* fecha){
 	
     int date[2];  
 	
@@ -110,12 +110,9 @@ void ingresarNumero(char *pregunta, char *cadena){
 void ingresarCadena(char *texto, char *cadena){
 	int maxCadena = 50;
 	int bandera;
-	do{
 		fflush( stdin ); // limpia el buffer
 		printf("%s", texto);
 		fgets(cadena,maxCadena,stdin);	
-		bandera = verificarCadena(cadena);;
-	}while(bandera == 0);
 }
 
 
@@ -196,23 +193,27 @@ void menuAltas(){
   printf("[ 6 - Localidad     ]\n");
   printf("[ 7 - consulta      ]\n");  
   
-  
+  fflush(stdin);
   scanf("%d",&opcion);
   
     switch (opcion){
     case 1: altaCliente();
+    break;
     case 2: altaMascota();
+    break;
     case 3: altaEspecie();
+    break;
     case 4: altaProfesional();
+    break;
     case 5: altaMedicamento();
+    break;
     case 6: altaLocalidad();
+    break;
     case 7: altaConsulta();
     break;  
-  
      }   
   
 }
-
 
 }
 void menuActulizaciones(){
@@ -230,20 +231,25 @@ void menuActulizaciones(){
       printf("[ 6 - Medicamentos de Mascota      ]\n");
       printf("[ 7 - Salir                        ]\n");
        
-       
-    /*    scanf("%d",&opcion);
+        /*fflush(stdin);
+        scanf("%d",&opcion);
       
         switch (opcion)
         { 
           case 1: actualizarClientes();
+          break;
           case 2: actualizarMascotas();
+          break;
           case 3: actualizarProfesionales();
+          break;
           case 4: actualizarTurnos();
+          break;
           case 5: actualizarTratamientosMascota();
+          break;
           case 6: actualizarMedicamentosMascota();
-          break;  
-             }   */
-       }    
+         break;  
+             } */  
+       }   
 }
   
 void menulistados(){
@@ -261,16 +267,21 @@ void menulistados(){
       printf("[ 6 - Medicamentos de Mascota      ]\n");
       printf("[ 7 - Salir                        ]\n");
        
-       
+        fflush(stdin);
         scanf("%d",&opcion);
       
         switch (opcion)
         { 
           case 1: listarClientes();
+          break;
           case 2: listarMascotas();
+          break;
           case 3: listarProfesionales();
+          break;
           case 4: listarConsultas();
+          break;
           case 5: listarTratamientosMascota();
+          break;
           case 6: listarMedicamentosMascota();
           break;  
              }   
@@ -294,16 +305,21 @@ void menuEstadisticas(){
       printf("[ 6 - Medicamentos de Mascota      ]\n");
       printf("[ 7 - Salir                        ]\n");
        
-    
+        fflush(stdin);
         scanf("%d",&opcion);
      /* 
         switch (opcion)
         { 
           case 1: estadisticaClientes();
+          break;
           case 2: estadisticaMascotas();
+          break;
           case 3: estadisticaProfesionales();
+          break;
           case 4: estadisticaTurnos();
+          break;
           case 5: estadisticaTratamientosMascota();
+          break;
           case 6: estadisticaMedicamentosMascota();
           break;  
              }   
@@ -312,11 +328,6 @@ void menuEstadisticas(){
   
 }
 }
-
-void modificarCliente(){
-}
-
-
 
 void menuDesplegable(){
 int opcion=0; 
@@ -330,12 +341,16 @@ while(opcion != 5) {
   printf("[ 4 - Estadisticas   ]\n");
   printf("[ 5 - Salir          ]\n");
   
-  scanf("%d",&opcion);
   fflush(stdin);
+  scanf("%d",&opcion);
+
   switch (opcion){
     case 1:menuAltas();
+    break;
     case 2:menuActulizaciones();
+    break;
     case 3:menulistados();
+    break;
     case 4:menuEstadisticas();
     break;
   }
