@@ -1,6 +1,7 @@
 #include "../../includes/includelib.h"
 #include "../localidad/localidad.h"
 #include "cliente.h"
+#include <string.h>
 #define MAX_CARACTERES 50
 #define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 
@@ -157,9 +158,14 @@ obj_Cliente *Cliente_new()
 
 //-----------------Listado---------------------------------------
 
-listarClientes(char* archivo, bool descendente){
+listarClientes(){
 	
+	char* archivo;
+	int descendente=0;
 	printf("\n\t\t\t\tCLIENTES\n");
+	
+	//ingresarCadena("ingrese el nombre del archivo de salida:\n",archivo);
+
 	
 	FILE *salida = stdin;
 	
@@ -170,10 +176,11 @@ listarClientes(char* archivo, bool descendente){
 	cliente = Cliente_new();
 	size = cliente->findAll(cliente,&list,NULL);
 	
-	if(archivo != NULL) {
+//	if(archivo != NULL) {
 		printf("Exportando a archivo...\n");
-        salida = fopen(archivo, "w+");
-    }
+        salida = fopen("salida.txt", "w+");
+        
+   // }
     
 	if (descendente)
 		qsort(list, size, sizeof(obj_Cliente*),compara_CodigoDesc);
@@ -186,10 +193,14 @@ listarClientes(char* archivo, bool descendente){
 		aux = (obj_Cliente*)itm; 
 			
 		if(archivo != NULL)
-			fprintf(salida, "DNI:%d  Nombre:%s Apellido:%s \n",
+			fprintf(salida, "DNI:%d  Nombre:%s Apellido:%s domicilio:%s telefono%s codigoPostal%d observaciones%s \n",
 				aux->getDni(aux),
 				aux->getNombres(aux),
-				aux->getApellido(aux)
+				aux->getApellido(aux),
+				aux->getDomicilio(aux),
+				aux->getTelefono(aux),
+				aux->getCodPostal(aux),
+				aux->getObservaciones(aux)
 			);
 		else
 			((Object *)itm)->toString(itm);
@@ -334,73 +345,94 @@ int validarDniCliente(){
 }
 }
 
+int menuActualizacion(){
+int opcion = 0;
+int esOpcionCorrecta=0;
+  while(!esOpcionCorrecta){
+  
+  printf("SELECCIONE LA INFORMACION QUE DESEA MODIFICAR:\n");
+  printf("[ 1 - Dni]\n");
+  printf("[ 2 - Nombre]\n");
+  printf("[ 3 - Apellido]\n");
+  printf("[ 4 - Domicilio]\n");
+  printf("[ 5 - Telefono]\n");
+  printf("[ 6 - CodPostal]\n");
+  printf("[ 7 - Observaciones]\n");  
+  
+  fflush(stdin);
+  scanf("%d",&opcion);
+  if(opcion>0 && opcion<8){
+  	esOpcionCorrecta=1;
+  }
+}
+	return opcion;
+}
+
 //-------------------Actualizacion---------------------------------
+actualizarDni(obj_Cliente *cliente){
+	int dni;
+	printf("Ingrese el nuevo dni: \n");
+	fflush(stdin);
+	scanf("%d",&dni);
+	cliente->setDni(cliente,dni);
+}
+actualizarNombre(obj_Cliente *cliente){
+	char cadena[MAXNOMBRE];
+	ingresarCadena("Ingrese el nuevo nombre\n",cadena);
+	cliente->setNombres(cliente,cadena);
+}
+actualizarApellido(obj_Cliente *cliente){
+	char cadena[MAXAPELLIDO];
+	ingresarCadena("Ingrese el nuevo apellido\n",cadena);
+	cliente->setApellido(cliente,cadena);
+}
+actualizarDomicilio(obj_Cliente *cliente){
+	char cadena[MAXDOMICILIO];
+	ingresarCadena("Ingrese el nuevo domicilio\n",cadena);
+	cliente->setDomicilio(cliente,cadena);
+}
+actualizarTelefono(obj_Cliente *cliente){
+	char cadena[MAXTELEFONO];
+	ingresarCadena("Ingrese el nuevo telefono\n",cadena);
+	cliente->setTelefono(cliente,cadena);
+}
+actualizarObservaciones(obj_Cliente *cliente){
+	char cadena[MAXOBSERVACION];
+	ingresarCadena("Ingrese la nueva observacion\n",cadena);
+	cliente->setObservaciones(cliente,cadena);
+}
 
 actualizarCliente()
 {
 	int codigo;
+	int respuesta;
 	obj_Cliente *cliente;
 	cliente = Cliente_new();
+
+	
 	
 	printf("USTED ESTA ACTUALIZANDO UN CLIENTE\n\n");
-	listarClientes(NULL,false);
-	
-	do{
-		confirmar = false;
+	codigo=validarDniCliente();
+	respuesta=menuActualizacion();
 		
-		ingresarNumero("Ingrese el Numero de Documento del cliente:\t\t",&cadena);
-		codigo = atoi(cadena);
-		
-		if(cliente->findbykey(cliente,codigo) != NOT_FOUND)
-		{
-			ingresarCadena("Ingrese el/los apellido/s del cliente:\t\t\t",&cadena);
-			cliente->setApellido(cliente,cadena);
+		if(cliente->findbykey(cliente,codigo) != NOT_FOUND){
 			
-			ingresarCadena("Ingrese los nombres del cliente:\t\t\t",&cadena);
-			cliente->setNombres(cliente,cadena);
-			
-			ingresarCadena("Ingrese el domicilio del cliente:\t\t\t",&cadena);
-			cliente->setDomicilio(cliente,cadena);
-			
-			obj_Localidad *localidad;
-			localidad = Localidad_new();
-			
-			listarClientePorLocalidad(NULL,false);
-			
-			bool reintentar;
-			
-			do{
-				reintentar = false;
-				
-				ingresarNumero("Ingrese el nuevo codigo postal del cliente:\t\t\t", &cadena);
-				codigo = atoi(cadena);
-				
-				if(localidad->findbykey(localidad,codigo) != NOT_FOUND)
-				{
-					cliente->setCodPostal(cliente,codigo);
-					
-					ingresarNumero("Ingrese el numero de telefono:\t\t\t\t",&cadena);
-					cliente->setTelefono(cliente,cadena);
-					
-					ingresarCadena("Ingrese observaciones:\t\t\t\t\t", &cadena);
-					cliente->setObservaciones(cliente,cadena);
-					
-					if(!cliente->saveObj(cliente))
-						printf("\nOcurrio un error al agregar al cliente:\n%s\n",getLastError());
-					else
-						printf("\nCLIENTE ACTUALIZADO\n");
-					
-					system("pause");
-					destroyObj(localidad);
-				}else{
-					printf("\nERROR: no se pudo encontrar la localidad\n\n");
-					reintentar = continuar(MSJ_REINTENTAR);
-				}					
-			}while(reintentar);
-		}else{
-			printf("\nERROR: cliente no encontrado\n\n");
-			confirmar = continuar(MSJ_REINTENTAR);
 		}
-	}while(confirmar);
-	destroyObj(cliente);
+	switch (respuesta){
+		case 1:actualizarDni(cliente);
+		break;
+		case 2:actualizarNombre(cliente);
+		break;
+		case 3:actualizarApellido(cliente);
+		break;
+		case 4:actualizarDomicilio(cliente);
+		break;
+		case 5:actualizarTelefono(cliente);
+		break;
+		case 6:cliente->setCodPostal(cliente, validarCodigoPostal());
+		break;
+		case 7:actualizarObservaciones(cliente);
+		break;
+	}	
+	destroyObj(cliente);	
 }

@@ -226,29 +226,29 @@ void menuActulizaciones(){
       printf("[ 1 - Clientes                     ]\n");
       printf("[ 2 - Mascotas                     ]\n");
       printf("[ 3 - Profesionales                ]\n");
-      printf("[ 4 - Turnos                       ]\n");
+      printf("[ 4 - Consulta                     ]\n");
       printf("[ 5 - Tratamientos de Mascota      ]\n");
       printf("[ 6 - Medicamentos de Mascota      ]\n");
       printf("[ 7 - Salir                        ]\n");
        
-        /*fflush(stdin);
+        fflush(stdin);
         scanf("%d",&opcion);
       
         switch (opcion)
         { 
-          case 1: actualizarClientes();
+          case 1: actualizarCliente();
           break;
-          case 2: actualizarMascotas();
+         /* case 2: actualizarMascotas();
           break;
           case 3: actualizarProfesionales();
           break;
-          case 4: actualizarTurnos();
+          case 4: actualizarConsulta();
           break;
           case 5: actualizarTratamientosMascota();
           break;
           case 6: actualizarMedicamentosMascota();
-         break;  
-             } */  
+         break;  */
+             }   
        }   
 }
   

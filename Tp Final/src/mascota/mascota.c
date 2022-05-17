@@ -4,9 +4,8 @@
 #include "../cliente/cliente.h"
 #include "mascota.h"
 #include<stdbool.h>
-#define MSJ_REINTENTAR "Desea reintentar la operacion? s/n\t"
 #define MAX_CARACTERES 50
-#define MAX_OBSERVACION 250
+#define MAX_OBSERVACION 50
 #define MAXNOMBRE 80
 
 char cadena[MAX_CARACTERES];
@@ -250,7 +249,6 @@ altaMascota(){
 	   obj_Mascota *mascota;
 	   mascota = Mascota_new();
 	
-	
 		printf("ALTA MASCOTA \n");
 		printf("ingrese nombre de la mascota: \n");
 		fgets(nombre,MAXNOMBRE-1,stdin);
@@ -263,7 +261,6 @@ altaMascota(){
 	    dni = validarDniCliente();
 	    mascota->setDniCliente(mascota,dni);
 		   
-	   
 	    codEspecie = validarEspecie();
 	    mascota->setCodEspecie(mascota,codEspecie);
 	
@@ -272,7 +269,7 @@ altaMascota(){
 	    scanf("%d", &vacunado);
 	    mascota->setVacunado(mascota,vacunado);
 		
-	    printf("ingrese observacion de la moscota \n");
+	    printf("ingrese observacion de la moscota:\t\t\t\t\t");
 		fgets(observacion,MAXOBSERVACION-1,stdin);
 	    mascota->setObservaciones(mascota,observacion);
 	

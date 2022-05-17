@@ -1,0 +1,13 @@
+DNI:44321654  Nombre:Jose Apellido:Martinez domicilio:mitre 2334 telefono44321654 codigoPostal9100 observaciones 
+DNI:40739453  Nombre:agustin
+ Apellido:pacheco
+ domicilio:p
+ telefono888
+ codigoPostal9100 observacionespiola
+ 
+DNI:12363688  Nombre:hugo
+ Apellido:pacheco
+ domicilio:las heras 1876
+ telefono2804240737
+ codigoPostal9100 observacioneshola
+ 

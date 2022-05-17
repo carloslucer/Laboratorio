@@ -75,7 +75,7 @@ int validarEspecie(){
 	int codEspecie=0;
     int especieValida=0;
     do{
-	    printf("ingrese el codigo de la especie los siguientes son los validos \n");
+	    printf("\n\t ingrese el codigo de la especie los siguientes son los validos \n");
 	    listarEspecie();
 	    fflush(stdin);
 	    scanf("%d", &codEspecie);
@@ -106,7 +106,7 @@ listarEspecie(){
 	    fflush(stdin);
 	
 	  }
-	  
+	printf("\n");	  
   destroyObjList(list,size);
   destroyObj(especie);
   
